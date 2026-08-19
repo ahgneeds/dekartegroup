@@ -1,0 +1,94 @@
+-- Dekarte MVP schema
+
+-- ============ requests ============
+create table if not exists public.requests (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  client_name text not null,
+  whatsapp text not null,
+  email text,
+  property_type text not null,
+  design_scope text not null,
+  rooms jsonb not null default '[]'::jsonb,
+  total_surface_m2 numeric not null default 0,
+  style text not null,
+  budget_dh numeric,
+  price_per_m2 numeric not null,
+  total_price_dh numeric not null,
+  photo_urls jsonb not null default '[]'::jsonb,
+  payment_method text,
+  payment_status text not null default 'non_paye',
+  status text not null default 'demande_recue',
+  admin_notes text not null default ''
+);
+
+alter table public.requests enable row level security;
+
+create policy "clients_can_submit_requests" on public.requests
+  for insert to anon, authenticated
+  with check (true);
+
+create policy "admins_can_select_requests" on public.requests
+  for select to authenticated
+  using (true);
+
+create policy "admins_can_update_requests" on public.requests
+  for update to authenticated
+  using (true);
+
+-- ============ settings (singleton) ============
+create table if not exists public.settings (
+  id integer primary key check (id = 1),
+  price_per_m2 numeric not null default 20,
+  updated_at timestamptz not null default now()
+);
+
+alter table public.settings enable row level security;
+
+create policy "public_can_select_settings" on public.settings
+  for select to anon, authenticated
+  using (true);
+
+create policy "admins_can_update_settings" on public.settings
+  for update to authenticated
+  using (true);
+
+insert into public.settings (id, price_per_m2)
+values (1, 20)
+on conflict (id) do nothing;
+
+-- ============ storage bucket: request-photos ============
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'request-photos',
+  'request-photos',
+  false,
+  10 * 1024 * 1024,
+  array['image/jpeg','image/png','image/webp']::text[]
+)
+on conflict (id) do nothing;
+
+do $$
+begin
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'storage' and tablename = 'objects' and policyname = 'request_photos_upload'
+  ) then
+    create policy "request_photos_upload"
+    on storage.objects
+    for insert
+    to anon
+    with check (bucket_id = 'request-photos');
+  end if;
+
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'storage' and tablename = 'objects' and policyname = 'request_photos_read'
+  ) then
+    create policy "request_photos_read"
+    on storage.objects
+    for select
+    to authenticated
+    using (bucket_id = 'request-photos');
+  end if;
+end $$;

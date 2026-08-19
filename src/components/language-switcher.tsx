@@ -1,12 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { fallbackLng, languageOptions, normalizeLanguage } from "@/i18n/config";
 
@@ -21,22 +15,34 @@ export const LanguageSwitcher = ({ className }: LanguageSwitcherProps) => {
     normalizeLanguage(i18n.resolvedLanguage ?? i18n.language) ?? fallbackLng;
 
   return (
-    <Select
-      value={currentLanguage}
-      onValueChange={(language) => {
-        void i18n.changeLanguage(language);
-      }}
+    <div
+      className={cn(
+        "inline-flex items-center overflow-hidden rounded-full border border-input bg-card p-0.5 shadow-soft",
+        className,
+      )}
     >
-      <SelectTrigger className={cn("min-w-[140px]", className)}>
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent>
-        {languageOptions.map((language) => (
-          <SelectItem key={language.value} value={language.value}>
+      {languageOptions.map((language) => {
+        const active = language.value === currentLanguage;
+        return (
+          <Button
+            key={language.value}
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              void i18n.changeLanguage(language.value);
+            }}
+            className={cn(
+              "h-8 rounded-full px-3.5 text-sm font-semibold transition-colors",
+              active
+                ? "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground",
+            )}
+          >
             {language.label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+          </Button>
+        );
+      })}
+    </div>
   );
 };

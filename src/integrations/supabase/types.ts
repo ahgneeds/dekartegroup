@@ -3360,7 +3360,87 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      requests: {
+        Row: {
+          admin_notes: string
+          budget_dh: number | null
+          client_name: string
+          created_at: string
+          design_scope: string
+          email: string | null
+          id: string
+          payment_method: string | null
+          payment_status: string
+          photo_urls: Json
+          price_per_m2: number
+          property_type: string
+          rooms: Json
+          status: string
+          style: string
+          total_price_dh: number
+          total_surface_m2: number
+          whatsapp: string
+        }
+        Insert: {
+          admin_notes?: string
+          budget_dh?: number | null
+          client_name: string
+          created_at?: string
+          design_scope: string
+          email?: string | null
+          id?: string
+          payment_method?: string | null
+          payment_status?: string
+          photo_urls?: Json
+          price_per_m2: number
+          property_type: string
+          rooms?: Json
+          status?: string
+          style: string
+          total_price_dh: number
+          total_surface_m2?: number
+          whatsapp: string
+        }
+        Update: {
+          admin_notes?: string
+          budget_dh?: number | null
+          client_name?: string
+          created_at?: string
+          design_scope?: string
+          email?: string | null
+          id?: string
+          payment_method?: string | null
+          payment_status?: string
+          photo_urls?: Json
+          price_per_m2?: number
+          property_type?: string
+          rooms?: Json
+          status?: string
+          style?: string
+          total_price_dh?: number
+          total_surface_m2?: number
+          whatsapp?: string
+        }
+        Relationships: []
+      }
+      settings: {
+        Row: {
+          id: number
+          price_per_m2: number
+          updated_at: string
+        }
+        Insert: {
+          id: number
+          price_per_m2?: number
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          price_per_m2?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
