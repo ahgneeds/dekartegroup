@@ -42,7 +42,7 @@ export const LandingDeliverable = () => {
             <h2 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
               {t("deliverable.title")}
             </h2>
-            <p className="mt-4 leading-relaxed text-foreground/70">
+            <p className="mt-4 leading-relaxed text-background/70">
               {t("deliverable.subtitle")}
             </p>
             <Button
@@ -64,7 +64,7 @@ export const LandingDeliverable = () => {
                 </span>
                 <span>
                   <span className="font-semibold text-background">{item.title}</span>
-                  <span className="text-foreground/70"> — {item.desc}</span>
+                  <span className="text-background/70"> — {item.desc}</span>
                 </span>
               </li>
             ))}

@@ -49,7 +49,7 @@ export const StepPhotos = ({ state, onChange, errors }: Props) => {
     >
       <div className="space-y-5">
         <div className="flex items-start gap-3 rounded-2xl bg-primary/5 p-4 ring-1 ring-primary/15">
-          <Camera className="mt-0.5 size-4.5 shrink-0 text-primary" aria-hidden />
+          <Camera className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden />
           <p className="text-sm leading-relaxed text-foreground/90">{t("photos.tip")}</p>
         </div>
 

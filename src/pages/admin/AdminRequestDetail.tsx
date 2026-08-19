@@ -25,6 +25,14 @@ import { PHOTO_BUCKET, REQUEST_STATUSES, adminLabel } from "@/lib/constants";
 import { formatDh, formatNumber } from "@/lib/format";
 import { PaymentBadge, StatusBadge, type RequestRow } from "./admin-ui";
 
+type RoomRow = {
+  type: string;
+  longueur: string | null;
+  largeur: string | null;
+  hauteur: string | null;
+  surface: number | null;
+};
+
 const PhotoGrid = ({ paths }: { paths: string[] }) => {
   const [urls, setUrls] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
@@ -135,7 +143,10 @@ const RequestDetail = () => {
     );
   }
 
-  const rooms = Array.isArray(request.rooms) ? (request.rooms as RequestRow["rooms"]) : [];
+  const rooms: RoomRow[] = Array.isArray(request.rooms) ? (request.rooms as RoomRow[]) : [];
+  const photoPaths: string[] = Array.isArray(request.photo_urls)
+    ? request.photo_urls.filter((path): path is string => typeof path === "string")
+    : [];
 
   const infoRows: { label: string; value: string }[] = [
     { label: "Client", value: request.client_name },
@@ -297,11 +308,11 @@ const RequestDetail = () => {
         <div className="flex items-center gap-2.5">
           <ImageIcon className="size-4 text-primary" aria-hidden />
           <h2 className="font-display text-lg font-semibold">
-            Photos du client ({request.photo_urls?.length ?? 0})
+            Photos du client ({photoPaths.length})
           </h2>
         </div>
         <div className="mt-4">
-          <PhotoGrid paths={request.photo_urls ?? []} />
+          <PhotoGrid paths={photoPaths} />
         </div>
       </div>
 

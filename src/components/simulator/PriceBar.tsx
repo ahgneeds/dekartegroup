@@ -20,7 +20,7 @@ export const PriceBar = ({ surface, pricePerM2 }: PriceBarProps) => {
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border/70 bg-card/95 px-5 py-3.5 shadow-elegant backdrop-blur">
         <div className="flex items-center gap-2.5">
           <span className="flex size-9 items-center justify-center rounded-xl bg-primary/10 text-primary">
-            <Calculator className="size-4.5" aria-hidden />
+            <Calculator className="size-5" aria-hidden />
           </span>
           <div className="leading-tight">
             <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">

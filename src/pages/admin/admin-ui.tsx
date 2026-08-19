@@ -29,7 +29,7 @@ export const PaymentBadge = ({ code }: { code: string }) => (
     className={cn(
       "inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold",
       code === "paye"
-        ? "bg-emerald-100 text-emerald-800 border border-emerald-200"
+        ? "bg-primary/15 text-primary border border-primary/30"
         : "bg-destructive/10 text-destructive border border-destructive/25",
     )}
   >

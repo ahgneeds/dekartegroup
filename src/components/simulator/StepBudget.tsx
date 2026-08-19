@@ -48,7 +48,7 @@ export const StepBudget = ({ state, onChange, errors }: Props) => {
         </div>
 
         <div className="flex items-start gap-3 rounded-2xl bg-accent/15 p-4 ring-1 ring-accent/30">
-          <Info className="mt-0.5 size-4.5 shrink-0 text-accent-foreground" aria-hidden />
+          <Info className="mt-0.5 size-5 shrink-0 text-accent-foreground" aria-hidden />
           <p className="text-sm leading-relaxed text-foreground/90">{t("budget.note")}</p>
         </div>
       </div>

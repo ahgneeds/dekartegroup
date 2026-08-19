@@ -22,8 +22,6 @@ import { PHOTO_BUCKET, roomSurface } from "@/lib/constants";
 import { budgetSchema, contactSchema, normalizeWhatsApp, parsePositiveNumber } from "@/lib/validation";
 import { cn } from "@/lib/utils";
 
-const STEP_COUNT = STEP_LABELS.length;
-
 const Simulator = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -42,6 +40,7 @@ const Simulator = () => {
     t("sim.step6"),
     t("sim.step7"),
   ];
+  const stepCount = stepLabels.length;
 
   const update = (patch: Partial<SimulatorState>) => {
     setState((previous) => ({ ...previous, ...patch }));
@@ -105,7 +104,7 @@ const Simulator = () => {
   const goNext = () => {
     if (validateStep(step)) {
       setErrors({});
-      setStep((current) => Math.min(current + 1, STEP_COUNT - 1));
+      setStep((current) => Math.min(current + 1, stepCount - 1));
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
@@ -140,10 +139,12 @@ const Simulator = () => {
 
       const normalizedWhatsapp = normalizeWhatsApp(state.whatsapp) ?? state.whatsapp.trim();
       const totalPrice = totalSurface * price;
+      const requestId = crypto.randomUUID();
 
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("requests")
         .insert({
+          id: requestId,
           client_name: state.name.trim(),
           whatsapp: normalizedWhatsapp,
           email: state.email.trim() || null,
@@ -165,16 +166,14 @@ const Simulator = () => {
           price_per_m2: price,
           total_price_dh: Number(totalPrice.toFixed(2)),
           photo_urls: photoPaths,
-        })
-        .select("id")
-        .single();
+        });
 
       if (error) throw error;
 
       sessionStorage.setItem(
         "dekarte_last_request",
         JSON.stringify({
-          id: data.id,
+          id: requestId,
           clientName: state.name.trim(),
           whatsapp: normalizedWhatsapp,
           email: state.email.trim() || null,
@@ -198,7 +197,7 @@ const Simulator = () => {
     }
   };
 
-  const isSummary = step === STEP_COUNT - 1;
+  const isSummary = step === stepCount - 1;
 
   return (
     <div className="flex min-h-full flex-col bg-gradient-soft pb-28">

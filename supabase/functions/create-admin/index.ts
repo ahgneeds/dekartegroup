@@ -6,6 +6,8 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-admin-setup-key",
 };
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
@@ -15,26 +17,23 @@ Deno.serve(async (req) => {
     const setupKey = Deno.env.get("ADMIN_SETUP_KEY");
     const providedKey = req.headers.get("x-admin-setup-key");
     if (!setupKey || providedKey !== setupKey) {
-      return new Response(
-        JSON.stringify({
-          ok: false,
-          error: "Forbidden",
-          setupKeyConfigured: !!setupKey,
-          keyMatch: setupKey === providedKey,
-        }),
-        {
-          status: 403,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        },
-      );
+      return new Response(JSON.stringify({ ok: false, error: "Forbidden" }), {
+        status: 403,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
-    const adminEmail = Deno.env.get("ADMIN_EMAIL");
-    const adminPassword = Deno.env.get("ADMIN_PASSWORD");
-    if (!adminEmail || !adminPassword) {
+    const body = await req.json();
+    const adminEmail =
+      typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+    const adminPassword = typeof body.password === "string" ? body.password : "";
+    if (!EMAIL_REGEX.test(adminEmail) || adminPassword.length < 8) {
       return new Response(
-        JSON.stringify({ ok: false, error: "ADMIN_EMAIL / ADMIN_PASSWORD secrets are missing" }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        JSON.stringify({ ok: false, error: "Invalid email or password" }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
       );
     }
 
@@ -43,7 +42,10 @@ Deno.serve(async (req) => {
     if (!supabaseUrl || !serviceRoleKey) {
       return new Response(
         JSON.stringify({ ok: false, error: "Server environment is incomplete" }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
       );
     }
 
@@ -55,12 +57,14 @@ Deno.serve(async (req) => {
     if (listError) throw listError;
 
     const exists = users.users.some(
-      (u) => u.email?.toLowerCase() === adminEmail.toLowerCase(),
+      (user) => user.email?.toLowerCase() === adminEmail,
     );
     if (exists) {
       return new Response(
         JSON.stringify({ ok: true, created: false, message: "Admin already exists" }),
-        { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
       );
     }
 
@@ -75,12 +79,17 @@ Deno.serve(async (req) => {
 
     return new Response(
       JSON.stringify({ ok: true, created: true, userId: created.user.id }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      },
     );
   } catch (error) {
-    return new Response(JSON.stringify({ ok: false, error: (error as Error).message }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ ok: false, error: (error as Error).message }),
+      {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      },
+    );
   }
 });

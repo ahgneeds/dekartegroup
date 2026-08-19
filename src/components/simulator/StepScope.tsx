@@ -73,7 +73,7 @@ export const StepScope = ({ state, onChange, totalSurface, errors }: Props) => {
             <div className="space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
-                  <Warehouse className="size-4.5 text-muted-foreground" aria-hidden />
+                  <Warehouse className="size-5 text-muted-foreground" aria-hidden />
                   <span className="text-sm font-medium text-muted-foreground">
                     {t("scope.rooms.label")}
                   </span>

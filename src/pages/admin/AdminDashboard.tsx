@@ -131,9 +131,9 @@ const Dashboard = () => {
             <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Payées
             </span>
-            <CircleDollarSign className="size-4 text-emerald-600" aria-hidden />
+            <CircleDollarSign className="size-4 text-primary" aria-hidden />
           </div>
-          <p className="mt-2 font-display text-3xl font-bold text-emerald-700">
+          <p className="mt-2 font-display text-3xl font-bold text-primary">
             {counts.paid}
           </p>
         </div>

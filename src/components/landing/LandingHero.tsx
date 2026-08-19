@@ -35,7 +35,7 @@ export const LandingHero = () => {
           <ul className="mt-10 grid max-w-md gap-2.5 text-sm text-muted-foreground">
             {[t("hero.point1"), t("hero.point2"), t("hero.point3")].map((point) => (
               <li key={point} className="flex items-center gap-2.5">
-                <CheckCircle2 className="size-4.5 shrink-0 text-primary" aria-hidden />
+                <CheckCircle2 className="size-5 shrink-0 text-primary" aria-hidden />
                 {point}
               </li>
             ))}
