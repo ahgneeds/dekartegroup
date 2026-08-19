@@ -42,14 +42,14 @@ export const LandingProcess = () => {
           {steps.map((step, index) => {
             const Icon = step.icon;
             return (
-              <div key={step.title} className="relative text-center">
+              <div key={step.title} className="text-center">
                 <div className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-gradient-primary text-primary-foreground shadow-soft">
                   <Icon className="size-6" aria-hidden />
                 </div>
-                <span className="mt-4 block font-display text-4xl font-bold text-primary/15">
+                <span className="mx-auto mt-4 flex size-7 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
                   {index + 1}
                 </span>
-                <h3 className="-mt-6 font-display text-lg font-semibold">{step.title}</h3>
+                <h3 className="mt-3 font-display text-lg font-semibold">{step.title}</h3>
                 <p className="mx-auto mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground">
                   {step.desc}
                 </p>

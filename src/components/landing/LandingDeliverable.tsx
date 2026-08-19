@@ -42,13 +42,13 @@ export const LandingDeliverable = () => {
             <h2 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
               {t("deliverable.title")}
             </h2>
-            <p className="mt-4 leading-relaxed text-background/70">
+            <p className="mt-4 leading-relaxed text-background/80">
               {t("deliverable.subtitle")}
             </p>
             <Button
               asChild
               size="lg"
-              className="mt-8 rounded-full bg-accent px-8 text-base text-accent-foreground shadow-soft hover:bg-accent/85"
+              className="mt-8 rounded-full bg-background px-8 text-base text-primary shadow-soft hover:bg-background/90"
             >
               <Link to="/simulateur">{t("common.cta")}</Link>
             </Button>
@@ -64,7 +64,7 @@ export const LandingDeliverable = () => {
                 </span>
                 <span>
                   <span className="font-semibold text-background">{item.title}</span>
-                  <span className="text-background/70"> — {item.desc}</span>
+                  <span className="text-background/80"> — {item.desc}</span>
                 </span>
               </li>
             ))}

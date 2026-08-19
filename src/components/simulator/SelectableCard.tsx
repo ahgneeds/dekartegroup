@@ -33,14 +33,16 @@ export const SelectableCard = ({
         className,
       )}
     >
-      <span
-        className={cn(
-          "flex size-10 items-center justify-center rounded-xl transition-colors",
-          selected ? "bg-gradient-primary text-primary-foreground" : "bg-secondary text-muted-foreground",
-        )}
-      >
-        {Icon && <Icon className="size-5" aria-hidden />}
-      </span>
+      {Icon && (
+        <span
+          className={cn(
+            "flex size-10 items-center justify-center rounded-xl transition-colors",
+            selected ? "bg-gradient-primary text-primary-foreground" : "bg-secondary text-muted-foreground",
+          )}
+        >
+          <Icon className="size-5" aria-hidden />
+        </span>
+      )}
       <span className="font-semibold text-foreground">{title}</span>
       {description && (
         <span className="text-sm leading-relaxed text-muted-foreground">{description}</span>

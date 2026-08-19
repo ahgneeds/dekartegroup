@@ -7,7 +7,7 @@ import { BrandImage } from "@/components/brand/brand-image";
 import { IMAGES } from "@/lib/images";
 
 const ZELLIGE_PATTERN =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cpath d='M48 0 L57 39 L96 48 L57 57 L48 96 L39 57 L0 48 L39 39 Z' fill='none' stroke='%23B4531F' stroke-opacity='0.07' stroke-width='1.2'/%3E%3C/svg%3E\")";
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cpath d='M48 0 L57 39 L96 48 L57 57 L48 96 L39 57 L0 48 L39 39 Z' fill='none' stroke='%2318325A' stroke-opacity='0.07' stroke-width='1.2'/%3E%3C/svg%3E\")";
 
 export const LandingHero = () => {
   const { t } = useTranslation();

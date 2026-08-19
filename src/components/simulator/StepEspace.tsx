@@ -1,5 +1,17 @@
 import { useTranslation } from "react-i18next";
-import { Plus, Ruler, Trash2 } from "lucide-react";
+import {
+  Briefcase,
+  Building2,
+  DoorOpen,
+  Home,
+  House,
+  LayoutGrid,
+  MoreHorizontal,
+  Plus,
+  Ruler,
+  Store,
+  Trash2,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,6 +43,22 @@ type Props = {
   errors: Record<string, string>;
 };
 
+const propertyIcons: Record<string, typeof Building2> = {
+  appartement: Building2,
+  villa: Home,
+  studio: DoorOpen,
+  maison: House,
+  local_commercial: Store,
+  bureau: Briefcase,
+  autre: MoreHorizontal,
+};
+
+const scopeIcons: Record<string, typeof LayoutGrid> = {
+  une_piece: DoorOpen,
+  plusieurs_pieces: LayoutGrid,
+  toute_propriete: Home,
+};
+
 export const StepEspace = ({ state, onChange, totalSurface, errors }: Props) => {
   const { t } = useTranslation();
   const isWhole = state.scope === "toute_propriete";
@@ -50,6 +78,7 @@ export const StepEspace = ({ state, onChange, totalSurface, errors }: Props) => 
             {PROPERTY_TYPES.map((type) => (
               <SelectableCard
                 key={type}
+                icon={propertyIcons[type]}
                 title={propertyTypeLabel(type, t)}
                 selected={state.propertyType === type}
                 onSelect={() => onChange({ propertyType: type })}
@@ -65,6 +94,7 @@ export const StepEspace = ({ state, onChange, totalSurface, errors }: Props) => 
             {DESIGN_SCOPES.map((scope) => (
               <SelectableCard
                 key={scope}
+                icon={scopeIcons[scope]}
                 title={scopeLabel(scope, t)}
                 selected={state.scope === scope}
                 onSelect={() => onChange({ scope })}

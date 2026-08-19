@@ -20,8 +20,8 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				sans: ["Inter", "Tajawal", "system-ui", "-apple-system", "sans-serif"],
-				display: ["Fraunces", "Tajawal", "Georgia", "serif"],
+				sans: ["Plus Jakarta Sans", "Tajawal", "system-ui", "-apple-system", "sans-serif"],
+				display: ["Bricolage Grotesque", "Tajawal", "system-ui", "sans-serif"],
 			},
 			colors: {
 				border: "hsl(var(--border))",

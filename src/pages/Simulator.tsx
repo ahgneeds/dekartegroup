@@ -13,6 +13,7 @@ import { StepEspace } from "@/components/simulator/StepEspace";
 import { StepStyle } from "@/components/simulator/StepStyle";
 import { StepPhotos } from "@/components/simulator/StepPhotos";
 import { StepSummary } from "@/components/simulator/StepSummary";
+import { PaymentDialog, type SubmittedRequest } from "@/components/simulator/PaymentDialog";
 import { initialSimulatorState, type SimulatorState } from "@/components/simulator/types";
 import { usePricePerM2 } from "@/hooks/use-price-per-m2";
 import { supabase } from "@/integrations/supabase/client";
@@ -27,6 +28,8 @@ const Simulator = () => {
   const [state, setState] = useState<SimulatorState>(initialSimulatorState);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState<SubmittedRequest | null>(null);
+  const [paymentOpen, setPaymentOpen] = useState(false);
   const { price } = usePricePerM2();
 
   const stepLabels = [
@@ -164,27 +167,25 @@ const Simulator = () => {
 
       if (error) throw error;
 
-      sessionStorage.setItem(
-        "dekarte_last_request",
-        JSON.stringify({
-          id: requestId,
-          clientName: state.name.trim(),
-          whatsapp: normalizedWhatsapp,
-          email: state.email.trim() || null,
-          propertyType: state.propertyType,
-          scope: state.scope,
-          rooms: state.rooms,
-          totalSurface: Number(totalSurface.toFixed(2)),
-          style: state.style,
-          budget: state.budget.trim() || null,
-          pricePerM2: price,
-          totalPrice: Number(totalPrice.toFixed(2)),
-          photoCount: photoPaths.length,
-          createdAt: new Date().toISOString(),
-        }),
-      );
-
-      navigate("/confirmation");
+      const payload = {
+        id: requestId,
+        clientName: state.name.trim(),
+        whatsapp: normalizedWhatsapp,
+        email: state.email.trim() || null,
+        propertyType: state.propertyType,
+        scope: state.scope,
+        rooms: state.rooms,
+        totalSurface: Number(totalSurface.toFixed(2)),
+        style: state.style,
+        budget: state.budget.trim() || null,
+        pricePerM2: price,
+        totalPrice: Number(totalPrice.toFixed(2)),
+        photoCount: photoPaths.length,
+        createdAt: new Date().toISOString(),
+      };
+      sessionStorage.setItem("dekarte_last_request", JSON.stringify(payload));
+      setSubmitted(payload);
+      setPaymentOpen(true);
     } catch {
       toast.error(t("errors.submit"));
       setSubmitting(false);
@@ -291,6 +292,8 @@ const Simulator = () => {
       </main>
 
       {step >= 1 && <PriceBar surface={totalSurface} pricePerM2={price} />}
+
+      <PaymentDialog open={paymentOpen} request={submitted} onClose={() => navigate("/")} />
     </div>
   );
 };
