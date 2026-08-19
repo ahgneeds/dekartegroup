@@ -18,7 +18,7 @@ export const ROOM_TYPES = [
   "terrasse",
   "entree",
   "salle_a_manger",
-  "mra7",
+  "vestibule",
   "autre",
 ] as const;
 
@@ -30,7 +30,12 @@ export const DESIGN_SCOPES = [
   "toute_propriete",
 ] as const;
 
-export const PAYMENT_METHODS = ["virement", "cash_plus", "wafacash"] as const;
+export const PAYMENT_METHODS = [
+  "virement",
+  "cash_plus",
+  "wafacash",
+  "western_union",
+] as const;
 
 export const REQUEST_STATUSES = [
   "demande_recue",
@@ -52,6 +57,8 @@ export const PAYMENT_INFO = {
   rib: "022780000053002874403274",
   whatsapp: "0661221643",
   whatsappIntl: "+212661221643",
+  city: "Casablanca",
+  country: "Maroc",
 } as const;
 
 export type RoomInput = {
@@ -99,7 +106,7 @@ export const ADMIN_LABELS: Record<string, string> = {
   terrasse: "Terrasse",
   entree: "Entrée",
   salle_a_manger: "Salle à manger",
-  mra7: "Mra7",
+  vestibule: "Vestibule",
   // design scopes
   une_piece: "Une pièce",
   plusieurs_pieces: "Plusieurs pièces",
@@ -121,6 +128,7 @@ export const ADMIN_LABELS: Record<string, string> = {
   virement: "Virement bancaire",
   cash_plus: "Cash Plus",
   wafacash: "Wafacash",
+  western_union: "Western Union",
 };
 
 export const adminLabel = (code: string): string =>

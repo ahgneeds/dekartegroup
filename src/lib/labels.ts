@@ -24,7 +24,7 @@ export const roomTypeLabel = (code: string, t: TFunction): string =>
     terrasse: t("roomTypes.terrasse"),
     entree: t("roomTypes.entree"),
     salle_a_manger: t("roomTypes.salleAManger"),
-    mra7: t("roomTypes.mra7"),
+    vestibule: t("roomTypes.vestibule"),
     autre: t("roomTypes.autre"),
   })[code as keyof typeof map] ?? code;
 
@@ -40,6 +40,7 @@ export const paymentMethodLabel = (code: string, t: TFunction): string =>
     virement: t("payment.methods.virement"),
     cash_plus: t("payment.methods.cashPlus"),
     wafacash: t("payment.methods.wafacash"),
+    western_union: t("payment.methods.westernUnion"),
   })[code as keyof typeof map] ?? code;
 
 export const scopeLabel = (code: string, t: TFunction): string =>

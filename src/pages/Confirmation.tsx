@@ -10,6 +10,7 @@ import {
   MessageCircle,
   PackageCheck,
   ReceiptText,
+  Send,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -237,6 +238,42 @@ const Confirmation = () => {
                 )}
               </Button>
             </div>
+          </div>
+
+          <div className="mt-5 rounded-2xl border border-border/70 bg-background/50 p-5">
+            <div className="grid gap-3 sm:grid-cols-[auto_1fr] sm:items-center">
+              <span className="flex size-12 items-center justify-center rounded-xl bg-secondary text-muted-foreground">
+                <Send className="size-5" aria-hidden />
+              </span>
+              <div>
+                <p className="font-semibold text-foreground">{t("payment.agency.title")}</p>
+                <p className="text-sm text-muted-foreground">{t("payment.agency.hint")}</p>
+              </div>
+            </div>
+            <dl className="mt-4 grid gap-2.5 sm:grid-cols-3">
+              <div className="rounded-xl bg-card p-3 ring-1 ring-border/60">
+                <dt className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  {t("payment.agency.name")}
+                </dt>
+                <dd className="mt-1 font-semibold text-foreground">{PAYMENT_INFO.accountName}</dd>
+              </div>
+              <div className="rounded-xl bg-card p-3 ring-1 ring-border/60">
+                <dt className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  {t("payment.agency.phone")}
+                </dt>
+                <dd className="mt-1 font-semibold text-foreground" dir="ltr">
+                  {PAYMENT_INFO.whatsapp}
+                </dd>
+              </div>
+              <div className="rounded-xl bg-card p-3 ring-1 ring-border/60">
+                <dt className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  {t("payment.agency.city")}
+                </dt>
+                <dd className="mt-1 font-semibold text-foreground">
+                  {PAYMENT_INFO.city}, {PAYMENT_INFO.country}
+                </dd>
+              </div>
+            </dl>
           </div>
 
           <div className="mt-5">

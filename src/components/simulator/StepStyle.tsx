@@ -1,11 +1,14 @@
 import { useTranslation } from "react-i18next";
-import { Palette, Check } from "lucide-react";
+import { Check, Palette, Wallet } from "lucide-react";
 
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { StepCard } from "./StepCard";
 import { BrandImage } from "@/components/brand/brand-image";
 import { IMAGES } from "@/lib/images";
-import { STYLES } from "@/lib/constants";
+import { STYLES, MIN_BUDGET_DH } from "@/lib/constants";
 import { styleLabel } from "@/lib/labels";
+import { formatNumber } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { SimulatorState } from "./types";
 
@@ -18,9 +21,10 @@ const styleAssets: Record<string, string> = {
 type Props = {
   state: SimulatorState;
   onChange: (patch: Partial<SimulatorState>) => void;
+  errors: Record<string, string>;
 };
 
-export const StepStyle = ({ state, onChange }: Props) => {
+export const StepStyle = ({ state, onChange, errors }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -68,6 +72,32 @@ export const StepStyle = ({ state, onChange }: Props) => {
             </button>
           );
         })}
+      </div>
+
+      <div className="mt-6 flex items-start gap-3 rounded-2xl border border-border/70 bg-background/50 p-4">
+        <Wallet className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden />
+        <div className="flex-1 space-y-2">
+          <Label htmlFor="budget">
+            {t("budget.label")}{" "}
+            <span className="font-normal text-muted-foreground">{t("common.optional")}</span>
+          </Label>
+          <div className="relative max-w-xs">
+            <Input
+              id="budget"
+              value={state.budget}
+              onChange={(event) => onChange({ budget: event.target.value })}
+              placeholder={formatNumber(MIN_BUDGET_DH)}
+              className="h-11 pe-16"
+              inputMode="numeric"
+              dir="ltr"
+            />
+            <span className="pointer-events-none absolute end-4 top-1/2 -translate-y-1/2 text-sm font-medium text-muted-foreground">
+              DH
+            </span>
+          </div>
+          <p className="text-xs leading-relaxed text-muted-foreground">{t("budget.note")}</p>
+          {errors.budget && <p className="text-sm text-destructive">{errors.budget}</p>}
+        </div>
       </div>
     </StepCard>
   );

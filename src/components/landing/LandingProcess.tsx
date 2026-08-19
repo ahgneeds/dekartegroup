@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { ClipboardList, Palette, Images, MessageCircle } from "lucide-react";
+import { Ruler, Palette, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -9,7 +9,7 @@ export const LandingProcess = () => {
 
   const steps = [
     {
-      icon: ClipboardList,
+      icon: Ruler,
       step: t("process.step1.step"),
       title: t("process.step1.title"),
       desc: t("process.step1.desc"),
@@ -21,48 +21,38 @@ export const LandingProcess = () => {
       desc: t("process.step2.desc"),
     },
     {
-      icon: Images,
+      icon: Sparkles,
       step: t("process.step3.step"),
       title: t("process.step3.title"),
       desc: t("process.step3.desc"),
     },
-    {
-      icon: MessageCircle,
-      step: t("process.step4.step"),
-      title: t("process.step4.title"),
-      desc: t("process.step4.desc"),
-    },
   ];
 
   return (
-    <section className="bg-gradient-soft py-16 md:py-20">
-      <div className="container">
+    <section className="border-y border-border/60 bg-card/60">
+      <div className="container py-14 md:py-16">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
             {t("process.title")}
           </h2>
-          <p className="mt-4 text-muted-foreground">{t("process.subtitle")}</p>
+          <p className="mt-3 text-muted-foreground">{t("process.subtitle")}</p>
         </div>
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-8 sm:grid-cols-3">
           {steps.map((step, index) => {
             const Icon = step.icon;
             return (
-              <div
-                key={step.title}
-                className="rounded-3xl border border-border/70 bg-card p-6 shadow-soft"
-              >
-                <div className="flex size-11 items-center justify-center rounded-2xl bg-gradient-primary text-primary-foreground shadow-soft">
-                  <Icon className="size-5" aria-hidden />
+              <div key={step.title} className="relative text-center">
+                <div className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-gradient-primary text-primary-foreground shadow-soft">
+                  <Icon className="size-6" aria-hidden />
                 </div>
-                <span className="mt-4 text-xs font-bold uppercase tracking-wider text-primary">
-                  {step.step}
+                <span className="mt-4 block font-display text-4xl font-bold text-primary/15">
+                  {index + 1}
                 </span>
-                <h3 className="mt-1.5 font-display text-lg font-semibold">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.desc}</p>
-                <span className="mt-3 block text-xs text-muted-foreground/70">
-                  {index + 1} / 4
-                </span>
+                <h3 className="-mt-6 font-display text-lg font-semibold">{step.title}</h3>
+                <p className="mx-auto mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground">
+                  {step.desc}
+                </p>
               </div>
             );
           })}

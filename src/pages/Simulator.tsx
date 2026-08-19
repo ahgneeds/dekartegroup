@@ -9,10 +9,8 @@ import { LanguageSwitcher } from "@/components/language-switcher";
 import { Logo } from "@/components/brand/logo";
 import { PriceBar } from "@/components/simulator/PriceBar";
 import { StepContact } from "@/components/simulator/StepContact";
-import { StepProperty } from "@/components/simulator/StepProperty";
-import { StepScope } from "@/components/simulator/StepScope";
+import { StepEspace } from "@/components/simulator/StepEspace";
 import { StepStyle } from "@/components/simulator/StepStyle";
-import { StepBudget } from "@/components/simulator/StepBudget";
 import { StepPhotos } from "@/components/simulator/StepPhotos";
 import { StepSummary } from "@/components/simulator/StepSummary";
 import { initialSimulatorState, type SimulatorState } from "@/components/simulator/types";
@@ -37,8 +35,6 @@ const Simulator = () => {
     t("sim.step3"),
     t("sim.step4"),
     t("sim.step5"),
-    t("sim.step6"),
-    t("sim.step7"),
   ];
   const stepCount = stepLabels.length;
 
@@ -70,9 +66,7 @@ const Simulator = () => {
       if (!state.propertyType) {
         valid = false;
         nextErrors.step = t("errors.selection");
-      }
-    } else if (index === 2) {
-      if (!state.scope) {
+      } else if (!state.scope) {
         valid = false;
         nextErrors.step = t("errors.selection");
       } else if (state.scope === "toute_propriete") {
@@ -84,16 +78,16 @@ const Simulator = () => {
         valid = false;
         nextErrors.rooms = t("errors.rooms");
       }
-    } else if (index === 3) {
+    } else if (index === 2) {
       if (!state.style) {
         valid = false;
         nextErrors.step = t("errors.selection");
-      }
-    } else if (index === 4) {
-      const result = budgetSchema.safeParse(state.budget);
-      if (!result.success) {
-        valid = false;
-        nextErrors.budget = t("budget.minError");
+      } else {
+        const result = budgetSchema.safeParse(state.budget);
+        if (!result.success) {
+          valid = false;
+          nextErrors.budget = t("budget.minError");
+        }
       }
     }
 
@@ -254,14 +248,12 @@ const Simulator = () => {
           {step === 0 && (
             <StepContact state={state} onChange={update} errors={errors} />
           )}
-          {step === 1 && <StepProperty state={state} onChange={update} />}
-          {step === 2 && (
-            <StepScope state={state} onChange={update} totalSurface={totalSurface} errors={errors} />
+          {step === 1 && (
+            <StepEspace state={state} onChange={update} totalSurface={totalSurface} errors={errors} />
           )}
-          {step === 3 && <StepStyle state={state} onChange={update} />}
-          {step === 4 && <StepBudget state={state} onChange={update} errors={errors} />}
-          {step === 5 && <StepPhotos state={state} onChange={update} errors={errors} />}
-          {step === 6 && (
+          {step === 2 && <StepStyle state={state} onChange={update} errors={errors} />}
+          {step === 3 && <StepPhotos state={state} onChange={update} errors={errors} />}
+          {step === 4 && (
             <StepSummary
               state={state}
               totalSurface={totalSurface}
@@ -298,7 +290,7 @@ const Simulator = () => {
         </div>
       </main>
 
-      <PriceBar surface={totalSurface} pricePerM2={price} />
+      {step >= 1 && <PriceBar surface={totalSurface} pricePerM2={price} />}
     </div>
   );
 };
