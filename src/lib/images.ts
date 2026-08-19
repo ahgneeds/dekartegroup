@@ -4,8 +4,8 @@
  */
 export const IMAGES = {
   logo: "/images/logo.png",
-  hero: "/images/hero.jpg",
-  styleMarocain: "/images/style-marocain.jpg",
-  styleModerne: "/images/style-moderne.jpg",
-  styleMixte: "/images/style-mixte.jpg",
+  hero: "/images/hero.webp",
+  styleMarocain: "/images/style-marocain.webp",
+  styleModerne: "/images/style-moderne.webp",
+  styleMixte: "/images/style-mixte.webp",
 };
