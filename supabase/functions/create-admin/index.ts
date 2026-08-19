@@ -15,10 +15,18 @@ Deno.serve(async (req) => {
     const setupKey = Deno.env.get("ADMIN_SETUP_KEY");
     const providedKey = req.headers.get("x-admin-setup-key");
     if (!setupKey || providedKey !== setupKey) {
-      return new Response(JSON.stringify({ ok: false, error: "Forbidden" }), {
-        status: 403,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          error: "Forbidden",
+          setupKeyConfigured: !!setupKey,
+          keyMatch: setupKey === providedKey,
+        }),
+        {
+          status: 403,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
+      );
     }
 
     const adminEmail = Deno.env.get("ADMIN_EMAIL");
