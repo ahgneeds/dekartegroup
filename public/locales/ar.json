@@ -10,7 +10,6 @@
   "hero.badge": "تصميم داخلي · الدار البيضاء",
   "hero.title": "أحلام منزلك، نرسمها لك.",
   "hero.subtitle": "صف مساحتك في دقيقتين. استلم تصوّراً واقعياً يتناسب مع أسلوبك وميزانيتك.",
-  "hero.ctaSecondary": "شاهد الأنماط",
   "hero.points": "بدون التزام · سعر واضح من البداية · متابعة عبر واتساب",
   "hero.imageAlt": "داخلية مصممة من طرف Dekarte",
 
@@ -60,8 +59,7 @@
   "sim.step1": "معلوماتك",
   "sim.step2": "المساحة",
   "sim.step3": "الأسلوب",
-  "sim.step4": "الصور",
-  "sim.step5": "الملخص",
+  "sim.step4": "الملخص",
 
   "errors.selection": "اختر للمتابعة.",
   "errors.surface": "يجب إدخال مساحة صحيحة (أكبر من 0 م²).",
@@ -111,9 +109,6 @@
 
   "roomTypes.salon": "صالة",
   "roomTypes.chambre": "غرفة نوم",
-  "roomTypes.cuisine": "مطبخ",
-  "roomTypes.salleDeBain": "حمّام",
-  "roomTypes.bureau": "مكتب",
   "roomTypes.balcon": "شرفة",
   "roomTypes.terrasse": "تراس",
   "roomTypes.entree": "مدخل",
@@ -130,6 +125,7 @@
 
   "photos.title": "صورك",
   "photos.subtitle": "اختياري، لكنه يغيّر النتيجة.",
+  "photos.optional": "اختياري",
   "photos.tip": "نصيحة: التقط الصورة من مدخل الغرفة، ويفضّل من مستوى الباب.",
   "photos.upload": "إضافة صور",
   "photos.maxSize": "{{size}} ميغا كحد أقصى / صورة",

@@ -39,9 +39,9 @@ export const PaymentContent = ({ totalDh }: { totalDh: string }) => {
 
   return (
     <div>
-      <div className="flex items-center justify-between rounded-2xl bg-gradient-primary px-5 py-4 text-primary-foreground shadow-elegant">
-        <span className="text-sm font-semibold">{t("price.total")}</span>
-        <span className="font-display text-2xl font-bold" dir="ltr">
+      <div className="flex items-center justify-between rounded-2xl border border-border/70 bg-background/50 px-5 py-4">
+        <span className="text-sm font-semibold text-muted-foreground">{t("price.total")}</span>
+        <span className="font-display text-2xl font-bold text-primary" dir="ltr">
           {totalDh}
         </span>
       </div>

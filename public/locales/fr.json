@@ -10,7 +10,6 @@
   "hero.badge": "Design d'intérieur · Casablanca",
   "hero.title": "Votre intérieur de rêve, dessiné pour vous.",
   "hero.subtitle": "Décrivez votre espace en 2 minutes. Recevez une visualisation réaliste, adaptée à votre style et à votre budget.",
-  "hero.ctaSecondary": "Voir les styles",
   "hero.points": "Sans engagement · Prix clair dès le départ · Suivi WhatsApp",
   "hero.imageAlt": "Intérieur décoré par Dekarte",
 
@@ -60,8 +59,7 @@
   "sim.step1": "Contact",
   "sim.step2": "Espace",
   "sim.step3": "Style",
-  "sim.step4": "Photos",
-  "sim.step5": "Récap",
+  "sim.step4": "Récap",
 
   "errors.selection": "Faites un choix pour continuer.",
   "errors.surface": "Une surface valide est nécessaire (plus de 0 m²).",
@@ -111,9 +109,6 @@
 
   "roomTypes.salon": "Salon",
   "roomTypes.chambre": "Chambre",
-  "roomTypes.cuisine": "Cuisine",
-  "roomTypes.salleDeBain": "Salle de bain",
-  "roomTypes.bureau": "Bureau",
   "roomTypes.balcon": "Balcon",
   "roomTypes.terrasse": "Terrasse",
   "roomTypes.entree": "Entrée",
@@ -130,6 +125,7 @@
 
   "photos.title": "Vos photos",
   "photos.subtitle": "Optionnel, mais ça change tout.",
+  "photos.optional": "Optionnel",
   "photos.tip": "Astuce : prenez la photo depuis l'entrée de la pièce, idéalement à hauteur de la porte.",
   "photos.upload": "Ajouter des photos",
   "photos.maxSize": "{{size}} Mo max / photo",

@@ -11,9 +11,6 @@ export const PROPERTY_TYPES = [
 export const ROOM_TYPES = [
   "salon",
   "chambre",
-  "cuisine",
-  "salle_de_bain",
-  "bureau",
   "balcon",
   "terrasse",
   "entree",

@@ -11,7 +11,6 @@ import { PriceBar } from "@/components/simulator/PriceBar";
 import { StepContact } from "@/components/simulator/StepContact";
 import { StepEspace } from "@/components/simulator/StepEspace";
 import { StepStyle } from "@/components/simulator/StepStyle";
-import { StepPhotos } from "@/components/simulator/StepPhotos";
 import { StepSummary } from "@/components/simulator/StepSummary";
 import { PaymentDialog, type SubmittedRequest } from "@/components/simulator/PaymentDialog";
 import { initialSimulatorState, type SimulatorState } from "@/components/simulator/types";
@@ -37,7 +36,6 @@ const Simulator = () => {
     t("sim.step2"),
     t("sim.step3"),
     t("sim.step4"),
-    t("sim.step5"),
   ];
   const stepCount = stepLabels.length;
 
@@ -120,18 +118,27 @@ const Simulator = () => {
 
     setSubmitting(true);
     try {
+      // Photos are optional: upload them in parallel, but never block the
+      // request if an upload fails — the request must always be saved.
       const photoPaths: string[] = [];
-      for (const photo of state.photos) {
-        const extension = photo.file.name.split(".").pop()?.toLowerCase() || "jpg";
-        const path = `photos/${crypto.randomUUID()}.${extension}`;
-        const { error: uploadError } = await supabase.storage
-          .from(PHOTO_BUCKET)
-          .upload(path, photo.file, {
-            contentType: photo.file.type || "image/jpeg",
-            upsert: false,
-          });
-        if (uploadError) throw uploadError;
-        photoPaths.push(path);
+      if (state.photos.length > 0) {
+        await Promise.all(
+          state.photos.map(async (photo) => {
+            try {
+              const extension = photo.file.name.split(".").pop()?.toLowerCase() || "jpg";
+              const path = `photos/${crypto.randomUUID()}.${extension}`;
+              const { error } = await supabase.storage
+                .from(PHOTO_BUCKET)
+                .upload(path, photo.file, {
+                  contentType: photo.file.type || "image/jpeg",
+                  upsert: false,
+                });
+              if (!error) photoPaths.push(path);
+            } catch {
+              // ignore single photo failures
+            }
+          }),
+        );
       }
 
       const normalizedWhatsapp = normalizeWhatsApp(state.whatsapp) ?? state.whatsapp.trim();
@@ -186,7 +193,8 @@ const Simulator = () => {
       sessionStorage.setItem("dekarte_last_request", JSON.stringify(payload));
       setSubmitted(payload);
       setPaymentOpen(true);
-    } catch {
+    } catch (error) {
+      console.error("Dekarte submit failed:", error);
       toast.error(t("errors.submit"));
       setSubmitting(false);
     }
@@ -253,10 +261,10 @@ const Simulator = () => {
             <StepEspace state={state} onChange={update} totalSurface={totalSurface} errors={errors} />
           )}
           {step === 2 && <StepStyle state={state} onChange={update} errors={errors} />}
-          {step === 3 && <StepPhotos state={state} onChange={update} errors={errors} />}
-          {step === 4 && (
+          {step === 3 && (
             <StepSummary
               state={state}
+              onChange={update}
               totalSurface={totalSurface}
               pricePerM2={price}
               submitting={submitting}

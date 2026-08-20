@@ -17,9 +17,6 @@ export const roomTypeLabel = (code: string, t: TFunction): string =>
   map({
     salon: t("roomTypes.salon"),
     chambre: t("roomTypes.chambre"),
-    cuisine: t("roomTypes.cuisine"),
-    salle_de_bain: t("roomTypes.salleDeBain"),
-    bureau: t("roomTypes.bureau"),
     balcon: t("roomTypes.balcon"),
     terrasse: t("roomTypes.terrasse"),
     entree: t("roomTypes.entree"),

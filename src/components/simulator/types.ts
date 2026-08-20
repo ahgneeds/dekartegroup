@@ -36,5 +36,4 @@ export const STEP_LABELS = [
   "sim.step2",
   "sim.step3",
   "sim.step4",
-  "sim.step5",
 ] as const;

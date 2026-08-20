@@ -35,15 +35,12 @@ export const LandingHero = () => {
             <Button
               asChild
               size="lg"
-              className="rounded-full px-8 text-base shadow-elegant"
+              className="w-full rounded-full px-10 py-6 text-base shadow-elegant sm:w-auto"
             >
               <Link to="/simulateur">
                 {t("common.cta")}
-                <ArrowRight className="size-4" aria-hidden />
+                <ArrowRight className="size-5" aria-hidden />
               </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="rounded-full px-8 text-base">
-              <a href="#styles">{t("hero.ctaSecondary")}</a>
             </Button>
           </div>
 
