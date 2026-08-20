@@ -6,6 +6,7 @@ import {
   Inbox,
   MessageCircle,
   Settings,
+  Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -26,6 +27,18 @@ const Dashboard = () => {
   const [price, setPrice] = useState<string>(String(DEFAULT_PRICE_PER_M2));
   const [whatsapp, setWhatsapp] = useState<string>(PAYMENT_INFO.whatsappIntl);
   const [savingPrice, setSavingPrice] = useState(false);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+
+  const deleteRequest = async (id: string) => {
+    const { error } = await supabase.from("requests").delete().eq("id", id);
+    if (error) {
+      toast.error("Impossible de supprimer la demande.");
+    } else {
+      toast.success("Demande supprimée.");
+      setDeleteId(null);
+      void loadRequests();
+    }
+  };
 
   const loadRequests = async () => {
     setLoading(true);
@@ -227,8 +240,8 @@ const Dashboard = () => {
             filtered.map((request) => (
               <Link
                 key={request.id}
-                to={`/admin/requests/${request.id}`}
-                className="block rounded-2xl border border-border/70 bg-card p-5 shadow-soft transition-shadow hover:shadow-elegant"
+                to={`/admin/dashboard/requests/${request.id}`}
+                className="relative block rounded-2xl border border-border/70 bg-card p-5 shadow-soft transition-shadow hover:shadow-elegant"
               >
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="min-w-0">
@@ -264,6 +277,59 @@ const Dashboard = () => {
                     </span>
                   </div>
                 </div>
+
+                <button
+                  type="button"
+                  aria-label="Supprimer la demande"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    setDeleteId(request.id);
+                  }}
+                  className="absolute end-3 top-3 flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
+                >
+                  <Trash2 className="size-4" aria-hidden />
+                </button>
+
+                {deleteId === request.id && (
+                  <div
+                    className="absolute inset-0 z-10 flex flex-wrap items-center justify-center gap-3 rounded-2xl bg-card/95 p-4 backdrop-blur-sm"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                    }}
+                  >
+                    <p className="text-sm font-semibold text-foreground">
+                      Supprimer cette demande ?
+                    </p>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="destructive"
+                      onClick={(event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        void deleteRequest(request.id);
+                      }}
+                      className="rounded-full"
+                    >
+                      Oui, supprimer
+                    </Button>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      onClick={(event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        setDeleteId(null);
+                      }}
+                      className="rounded-full"
+                    >
+                      Annuler
+                    </Button>
+                  </div>
+                )}
               </Link>
             ))}
         </div>

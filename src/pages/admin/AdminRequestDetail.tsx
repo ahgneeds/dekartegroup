@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   ArrowLeft,
   ImageIcon,
@@ -7,6 +7,7 @@ import {
   NotebookPen,
   Save,
   Tag,
+  Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -84,12 +85,15 @@ const PhotoGrid = ({ paths }: { paths: string[] }) => {
 
 const RequestDetail = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [request, setRequest] = useState<RequestRow | null>(null);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("");
   const [paymentStatus, setPaymentStatus] = useState("");
   const [notes, setNotes] = useState("");
   const [saving, setSaving] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const load = async () => {
     if (!id) return;
@@ -126,6 +130,19 @@ const RequestDetail = () => {
       toast.error("Impossible d'enregistrer les modifications.");
     } else {
       toast.success("Modifications enregistrées.");
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!request) return;
+    setDeleting(true);
+    const { error } = await supabase.from("requests").delete().eq("id", request.id);
+    setDeleting(false);
+    if (error) {
+      toast.error("Impossible de supprimer la demande.");
+    } else {
+      toast.success("Demande supprimée.");
+      navigate("/admin/dashboard");
     }
   };
 
@@ -316,7 +333,27 @@ const RequestDetail = () => {
         </div>
       </div>
 
-      <div className="text-end">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <Button
+          type="button"
+          variant={confirmDelete ? "destructive" : "outline"}
+          onClick={() => {
+            if (!confirmDelete) {
+              setConfirmDelete(true);
+            } else {
+              void handleDelete();
+            }
+          }}
+          disabled={deleting}
+          className="rounded-full"
+        >
+          <Trash2 className="size-4" aria-hidden />
+          {deleting
+            ? "Suppression…"
+            : confirmDelete
+              ? "Confirmer la suppression ?"
+              : "Supprimer la demande"}
+        </Button>
         <Button onClick={saveChanges} disabled={saving} className="rounded-full px-8">
           <Save className="size-4" aria-hidden />
           {saving ? "Enregistrement…" : "Enregistrer les modifications"}
