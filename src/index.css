@@ -49,6 +49,7 @@
 
     --shadow-soft: 0 12px 40px -14px hsl(214 30% 18% / 0.14);
     --shadow-elegant: 0 28px 70px -24px hsl(214 45% 22% / 0.3);
+    --shadow-glow: 0 12px 40px -8px hsl(43 72% 50% / 0.55);
   }
 
   .dark {

@@ -76,6 +76,7 @@ export default {
 			boxShadow: {
 				soft: "var(--shadow-soft)",
 				elegant: "var(--shadow-elegant)",
+				glow: "var(--shadow-glow)",
 			},
 			backgroundImage: {
 				"gradient-primary": "var(--gradient-primary)",
@@ -94,11 +95,16 @@ export default {
 					from: { opacity: "0", transform: "translateY(14px)" },
 					to: { opacity: "1", transform: "translateY(0)" },
 				},
+				glow: {
+					"0%, 100%": { boxShadow: "0 0 0 0 hsl(43 72% 50% / 0.5)" },
+					"50%": { boxShadow: "0 0 0 12px hsl(43 72% 50% / 0)" },
+				},
 			},
 			animation: {
 				"accordion-down": "accordion-down 0.2s ease-out",
 				"accordion-up": "accordion-up 0.2s ease-out",
 				"fade-up": "fade-up 0.6s ease-out both",
+				glow: "glow 2.2s ease-in-out infinite",
 			},
 		},
 	},

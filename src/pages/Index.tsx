@@ -1,7 +1,6 @@
 import { LandingHeader } from "@/components/landing/LandingHeader";
 import { LandingHero } from "@/components/landing/LandingHero";
-import { LandingProcess } from "@/components/landing/LandingProcess";
-import { LandingDeliverable } from "@/components/landing/LandingDeliverable";
+import { LandingHowItWorks } from "@/components/landing/LandingHowItWorks";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 
 const Index = () => {
@@ -10,8 +9,7 @@ const Index = () => {
       <LandingHeader />
       <main>
         <LandingHero />
-        <LandingProcess />
-        <LandingDeliverable />
+        <LandingHowItWorks />
       </main>
       <LandingFooter />
     </div>

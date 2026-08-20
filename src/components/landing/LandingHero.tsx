@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, BadgeCheck, Check, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { BrandImage } from "@/components/brand/brand-image";
@@ -15,6 +15,13 @@ export const LandingHero = () => {
   const { t } = useTranslation();
   const { price } = usePricePerM2();
 
+  const features = [
+    { icon: BadgeCheck, label: t("hero.feat1") },
+    { icon: Check, label: t("hero.feat2") },
+    { icon: Check, label: t("hero.feat3") },
+    { icon: Check, label: t("hero.feat4") },
+  ];
+
   return (
     <section className="relative overflow-hidden bg-gradient-soft">
       <div
@@ -27,23 +34,45 @@ export const LandingHero = () => {
           <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-card px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-primary">
             {t("hero.badge")}
           </span>
+
           <h1 className="mt-6 font-display text-4xl font-semibold leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-[3.4rem]">
-            {t("hero.title")}
+            {t("hero.title")}{" "}
+            <span className="inline-block rounded-2xl bg-accent px-3 text-accent-foreground">
+              {t("hero.highlight")}
+            </span>
           </h1>
+
           <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">
             {t("hero.subtitle")}
           </p>
 
-          <div className="mt-6 inline-flex items-center gap-2.5 rounded-full bg-accent/15 px-4 py-2 text-sm font-semibold text-accent-foreground ring-1 ring-accent/40">
-            <Sparkles className="size-4 text-accent" aria-hidden />
+          <div className="mt-6 inline-flex items-center gap-2.5 rounded-full bg-accent px-5 py-2.5 text-base font-bold text-accent-foreground shadow-glow ring-2 ring-accent animate-glow">
+            <Sparkles className="size-5" aria-hidden />
             {t("hero.price", { price: formatDh(price) })}
           </div>
+
+          <ul className="mt-5 grid max-w-lg gap-2 sm:grid-cols-2">
+            {features.map((feature) => {
+              const Icon = feature.icon;
+              return (
+                <li
+                  key={feature.label}
+                  className="flex items-center gap-2.5 rounded-xl border border-border/70 bg-card/80 px-3.5 py-2.5 text-sm font-medium text-foreground"
+                >
+                  <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-accent/20 text-accent">
+                    <Icon className="size-3.5" aria-hidden />
+                  </span>
+                  {feature.label}
+                </li>
+              );
+            })}
+          </ul>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
             <Button
               asChild
               size="lg"
-              className="w-full rounded-full px-10 py-6 text-base shadow-elegant sm:w-auto"
+              className="w-full rounded-full bg-primary px-10 py-6 text-base text-primary-foreground shadow-elegant hover:bg-primary/90 sm:w-auto"
             >
               <Link to="/simulateur">
                 {t("common.cta")}
@@ -52,7 +81,7 @@ export const LandingHero = () => {
             </Button>
           </div>
 
-          <p className="mt-8 text-sm text-muted-foreground">{t("hero.points")}</p>
+          <p className="mt-6 text-sm text-muted-foreground">{t("hero.points")}</p>
         </div>
 
         <div className="relative animate-fade-up [animation-delay:120ms]">

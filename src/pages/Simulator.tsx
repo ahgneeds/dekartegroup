@@ -110,12 +110,40 @@ const Simulator = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!validateStep(0) || totalSurface <= 0) {
       setErrors((previous) => ({ ...previous, step: t("errors.submit") }));
       return;
     }
 
+    const normalizedWhatsapp = normalizeWhatsApp(state.whatsapp) ?? state.whatsapp.trim();
+    const totalPrice = totalSurface * price;
+    const requestId = crypto.randomUUID();
+
+    const payload: SubmittedRequest = {
+      id: requestId,
+      clientName: state.name.trim(),
+      whatsapp: normalizedWhatsapp,
+      propertyType: state.propertyType,
+      scope: state.scope,
+      rooms: state.rooms,
+      totalSurface: Number(totalSurface.toFixed(2)),
+      style: state.style,
+      budget: state.budget.trim() || null,
+      pricePerM2: price,
+      totalPrice: Number(totalPrice.toFixed(2)),
+    };
+
+    // The payment popup opens INSTANTLY — the request is saved in the background
+    // so the user never waits for a spinner before seeing how to pay.
+    setSubmitted(payload);
+    setPaymentOpen(true);
+    sessionStorage.setItem("dekarte_last_request", JSON.stringify(payload));
+
+    void persistRequest(payload, state);
+  };
+
+  const persistRequest = async (payload: SubmittedRequest, state: SimulatorState) => {
     setSubmitting(true);
     try {
       // Photos are optional: upload them in parallel, but never block the
@@ -141,59 +169,37 @@ const Simulator = () => {
         );
       }
 
-      const normalizedWhatsapp = normalizeWhatsApp(state.whatsapp) ?? state.whatsapp.trim();
-      const totalPrice = totalSurface * price;
-      const requestId = crypto.randomUUID();
-
       const { error } = await supabase
         .from("requests")
         .insert({
-          id: requestId,
-          client_name: state.name.trim(),
-          whatsapp: normalizedWhatsapp,
-          property_type: state.propertyType,
-          design_scope: state.scope,
+          id: payload.id,
+          client_name: payload.clientName,
+          whatsapp: payload.whatsapp,
+          property_type: payload.propertyType,
+          design_scope: payload.scope,
           rooms:
-            state.scope === "toute_propriete"
+            payload.scope === "toute_propriete"
               ? []
-              : state.rooms.map((room) => ({
+              : payload.rooms.map((room) => ({
                   type: room.type,
                   longueur: room.length.trim() || null,
                   largeur: room.width.trim() || null,
                   hauteur: room.height.trim() || null,
                   surface: roomSurface(room),
                 })),
-          total_surface_m2: Number(totalSurface.toFixed(2)),
-          style: state.style,
-          budget_dh: state.budget.trim() ? Number.parseFloat(state.budget) : null,
-          price_per_m2: price,
-          total_price_dh: Number(totalPrice.toFixed(2)),
+          total_surface_m2: payload.totalSurface,
+          style: payload.style,
+          budget_dh: payload.budget ? Number.parseFloat(payload.budget) : null,
+          price_per_m2: payload.pricePerM2,
+          total_price_dh: payload.totalPrice,
           photo_urls: photoPaths,
         });
 
       if (error) throw error;
-
-      const payload = {
-        id: requestId,
-        clientName: state.name.trim(),
-        whatsapp: normalizedWhatsapp,
-        propertyType: state.propertyType,
-        scope: state.scope,
-        rooms: state.rooms,
-        totalSurface: Number(totalSurface.toFixed(2)),
-        style: state.style,
-        budget: state.budget.trim() || null,
-        pricePerM2: price,
-        totalPrice: Number(totalPrice.toFixed(2)),
-        photoCount: photoPaths.length,
-        createdAt: new Date().toISOString(),
-      };
-      sessionStorage.setItem("dekarte_last_request", JSON.stringify(payload));
-      setSubmitted(payload);
-      setPaymentOpen(true);
     } catch (error) {
       console.error("Dekarte submit failed:", error);
-      toast.error(t("errors.submit"));
+      toast.error(t("errors.saveFallback"));
+    } finally {
       setSubmitting(false);
     }
   };
