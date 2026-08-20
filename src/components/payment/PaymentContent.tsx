@@ -40,12 +40,12 @@ export const PaymentContent = ({ totalDh }: { totalDh: string }) => {
   return (
     <div>
       {/* Total banner — the amount is the first thing to see */}
-      <div className="flex items-center justify-between gap-3 rounded-2xl bg-gradient-primary px-5 py-4 text-primary-foreground shadow-soft">
+      <div className="relative flex items-center justify-between gap-3 overflow-hidden rounded-2xl bg-gradient-primary px-5 py-4 text-primary-foreground shadow-soft">
         <span className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide">
           <Banknote className="size-5 text-accent" aria-hidden />
           {t("payment.amount")}
         </span>
-        <span className="font-display text-3xl font-bold text-accent" dir="ltr">
+        <span className="font-hero text-3xl font-extrabold tracking-tight text-accent" dir="ltr">
           {totalDh}
         </span>
       </div>

@@ -22,6 +22,7 @@ export default {
 			fontFamily: {
 				sans: ["Plus Jakarta Sans", "Tajawal", "system-ui", "-apple-system", "sans-serif"],
 				display: ["Bricolage Grotesque", "Tajawal", "system-ui", "sans-serif"],
+				hero: ["Sora", "Plus Jakarta Sans", "Tajawal", "system-ui", "sans-serif"],
 			},
 			colors: {
 				border: "hsl(var(--border))",

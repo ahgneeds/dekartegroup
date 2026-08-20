@@ -14,7 +14,8 @@
   "hero.feat2": "Au plus bas budget",
   "hero.feat3": "Mobilier dispo au Maroc",
   "hero.feat4": "Rapport détaillé + suivi WhatsApp en 2-3 jours",
-  "hero.price": "Seulement {{price}} / m²",
+  "hero.pricePre": "Seulement",
+  "hero.priceUnit": "DH / m²",
   "hero.imageAlt": "Intérieur décoré par Dekarte",
 
   "styles.marocain.title": "Marocain",

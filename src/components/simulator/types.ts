@@ -17,7 +17,6 @@ export type SimulatorState = {
   totalSurface: string;
   style: string;
   budget: string;
-  photos: PendingPhoto[];
 };
 
 export const initialSimulatorState: SimulatorState = {
@@ -29,7 +28,6 @@ export const initialSimulatorState: SimulatorState = {
   totalSurface: "",
   style: "",
   budget: "",
-  photos: [],
 };
 
 export const STEP_LABELS = [

@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowRight, BadgeCheck, Check, Sparkles } from "lucide-react";
+import { ArrowRight, BadgeCheck, Check } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { BrandImage } from "@/components/brand/brand-image";
 import { IMAGES } from "@/lib/images";
 import { usePricePerM2 } from "@/hooks/use-price-per-m2";
-import { formatDh } from "@/lib/format";
+import { formatNumber } from "@/lib/format";
 
 const ZELLIGE_PATTERN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cpath d='M48 0 L57 39 L96 48 L57 57 L48 96 L39 57 L0 48 L39 39 Z' fill='none' stroke='%2318325A' stroke-opacity='0.07' stroke-width='1.2'/%3E%3C/svg%3E\")";
@@ -31,19 +31,28 @@ export const LandingHero = () => {
       />
       <div className="container relative grid items-center gap-12 py-14 md:grid-cols-2 md:py-20">
         <div className="animate-fade-up">
-          <div className="inline-flex items-center gap-2.5 rounded-full bg-accent px-5 py-2.5 text-lg font-bold text-accent-foreground shadow-glow ring-2 ring-accent animate-glow">
-            <Sparkles className="size-5" aria-hidden />
-            <span className="font-display">{t("hero.price", { price: formatDh(price) })}</span>
+          <div className="inline-flex items-center gap-3">
+            <span className="flex size-14 shrink-0 flex-col items-center justify-center rounded-full bg-accent text-accent-foreground shadow-soft ring-2 ring-accent/30">
+              <span className="font-hero text-base font-extrabold leading-none" dir="ltr">
+                {formatNumber(price)}
+              </span>
+              <span className="mt-0.5 text-[9px] font-bold uppercase leading-none tracking-wide">
+                {t("hero.priceUnit")}
+              </span>
+            </span>
+            <span className="font-hero text-lg font-semibold text-foreground">
+              {t("hero.pricePre")}
+            </span>
           </div>
 
-          <h1 className="mt-6 font-display text-4xl font-semibold leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-[3.4rem]">
+          <h1 className="mt-6 font-hero text-4xl font-bold leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-[3.4rem]">
             {t("hero.title")}{" "}
             <span className="inline-block rounded-2xl bg-accent px-3 text-accent-foreground">
               {t("hero.highlight")}
             </span>
           </h1>
 
-          <p className="mt-5 max-w-md text-lg leading-relaxed text-muted-foreground">
+          <p className="mt-5 max-w-md text-base leading-relaxed text-muted-foreground">
             {t("hero.subtitle")}
           </p>
 

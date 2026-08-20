@@ -162,19 +162,13 @@ const Simulator = () => {
         }
       };
 
-      // Photos are optional: upload everything (room photos + extra photos)
-      // in parallel, but never block the request if an upload fails — the
-      // request itself must always be saved.
-      const results = await Promise.all([
-        ...state.photos.map((photo) => uploadPhoto(photo.file)),
-        ...state.rooms.map((room) =>
+      // Room photos are optional: upload them in parallel, but never block
+      // the request if an upload fails — the request itself must always be saved.
+      const roomPhotoPaths = await Promise.all(
+        state.rooms.map((room) =>
           room.photo ? uploadPhoto(room.photo.file) : Promise.resolve(null),
         ),
-      ]);
-      const photoPaths = results
-        .slice(0, state.photos.length)
-        .filter((path): path is string => Boolean(path));
-      const roomPhotoPaths = results.slice(state.photos.length);
+      );
 
       const { error } = await supabase
         .from("requests")
@@ -200,7 +194,7 @@ const Simulator = () => {
           budget_dh: payload.budget ? Number.parseFloat(payload.budget) : null,
           price_per_m2: payload.pricePerM2,
           total_price_dh: payload.totalPrice,
-          photo_urls: photoPaths,
+          photo_urls: [],
         });
 
       if (error) throw error;
@@ -276,7 +270,6 @@ const Simulator = () => {
           {step === 3 && (
             <StepSummary
               state={state}
-              onChange={update}
               totalSurface={totalSurface}
               pricePerM2={price}
               submitting={submitting}
@@ -290,24 +283,24 @@ const Simulator = () => {
             </p>
           )}
 
-          {!isSummary && (
-            <div className="flex items-center justify-between">
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={goBack}
-                disabled={step === 0}
-                className="rounded-full"
-              >
-                <ArrowLeft className="size-4" aria-hidden />
-                {t("common.back")}
-              </Button>
+          <div className="flex items-center justify-between">
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={goBack}
+              disabled={step === 0}
+              className="rounded-full"
+            >
+              <ArrowLeft className="size-4" aria-hidden />
+              {t("common.back")}
+            </Button>
+            {!isSummary && (
               <Button type="button" onClick={goNext} className="rounded-full px-7 shadow-soft">
                 {t("common.next")}
                 <ArrowRight className="size-4" aria-hidden />
               </Button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </main>
 

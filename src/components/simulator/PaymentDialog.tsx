@@ -44,31 +44,31 @@ export const PaymentDialog = ({ open, request, onClose }: PaymentDialogProps) =>
 
   return (
     <Dialog open={open} onOpenChange={(next) => { if (!next) onClose(); }}>
-      <DialogContent className="gap-0 !rounded-3xl p-0 sm:max-w-xl [&>button]:z-20 [&>button]:text-primary-foreground">
+      <DialogContent className="gap-0 !rounded-[2rem] p-0 ring-1 ring-black/5 sm:max-w-xl [&>button]:z-20 [&>button]:flex [&>button]:size-8 [&>button]:items-center [&>button]:justify-center [&>button]:rounded-full [&>button]:bg-white/10 [&>button]:text-white [&>button]:backdrop-blur">
         <div className="nice-scroll max-h-[92vh] overflow-y-auto overscroll-contain scroll-smooth">
-          <div className="sticky top-0 z-10 flex items-center justify-between gap-3 bg-gradient-primary py-4 pe-16 ps-6 text-primary-foreground sm:ps-8">
+          <div className="sticky top-0 z-10 border-b border-white/10 bg-gradient-primary py-5 pe-16 ps-6 text-primary-foreground sm:ps-8">
             <div className="flex min-w-0 items-center gap-3">
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white/15 backdrop-blur">
+              <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-white/15 backdrop-blur">
                 <CheckCircle2 className="size-6" aria-hidden />
               </span>
               <div className="min-w-0">
-                <DialogTitle className="font-display text-lg font-semibold leading-tight">
+                <DialogTitle className="font-display text-xl font-semibold leading-tight">
                   {t("confirmation.title")}
                 </DialogTitle>
-                <DialogDescription className="text-xs leading-snug text-primary-foreground/80">
+                <DialogDescription className="mt-0.5 text-xs leading-snug text-primary-foreground/75">
                   {t("confirmation.subtitle")}
                 </DialogDescription>
               </div>
             </div>
             <span
-              className="shrink-0 rounded-full bg-black/15 px-3 py-1 text-[11px] font-semibold"
+              className="mt-3 inline-flex rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold"
               dir="ltr"
             >
               {t("confirmation.id")} · {request.id.slice(0, 8)}
             </span>
           </div>
 
-          <div className="space-y-3 px-6 py-6 pb-8 sm:px-8">
+          <div className="space-y-3 px-6 py-6 pb-9 sm:px-8">
             <PaymentContent totalDh={formatDh(request.totalPrice)} />
 
             <div className="pt-2 text-center">

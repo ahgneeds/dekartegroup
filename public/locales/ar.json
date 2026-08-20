@@ -14,7 +14,8 @@
   "hero.feat2": "بأقل ميزانية",
   "hero.feat3": "أثاث متوفر في المغرب",
   "hero.feat4": "تقرير مفصّل + متابعة واتساب خلال 2-3 أيام",
-  "hero.price": "فقط {{price}} / م²",
+  "hero.pricePre": "فقط",
+  "hero.priceUnit": "درهم / م²",
   "hero.imageAlt": "داخلية مصممة من طرف Dekarte",
 
   "styles.marocain.title": "مغربي",
