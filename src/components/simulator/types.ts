@@ -5,12 +5,15 @@ export type PendingPhoto = {
   previewUrl: string;
 };
 
+/** A room with an optional attached photo. */
+export type SimulatorRoom = RoomInput & { photo?: PendingPhoto };
+
 export type SimulatorState = {
   name: string;
   whatsapp: string;
   propertyType: string;
   scope: string;
-  rooms: RoomInput[];
+  rooms: SimulatorRoom[];
   totalSurface: string;
   style: string;
   budget: string;

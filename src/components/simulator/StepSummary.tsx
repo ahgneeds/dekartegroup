@@ -153,7 +153,10 @@ export const StepSummary = ({
           <ul className="mt-2.5 space-y-1.5">
             {state.rooms.map((room, index) => (
               <li key={index} className="flex items-center justify-between gap-3 text-sm">
-                <span className="text-foreground">{roomTypeLabel(room.type, t)}</span>
+                <span className="flex items-center gap-2 text-foreground">
+                  {roomTypeLabel(room.type, t)}
+                  {room.photo && <Camera className="size-3.5 text-primary" aria-hidden />}
+                </span>
                 <span className="text-muted-foreground" dir="ltr">
                   {room.length || "—"} × {room.width || "—"} m ={" "}
                   <span className="font-semibold text-primary">

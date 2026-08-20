@@ -1,15 +1,9 @@
+import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  Briefcase,
-  Building2,
-  DoorOpen,
-  Home,
-  House,
-  LayoutGrid,
-  MoreHorizontal,
+  ImagePlus,
   Plus,
   Ruler,
-  Store,
   Trash2,
 } from "lucide-react";
 
@@ -24,9 +18,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { StepCard } from "./StepCard";
-import { SelectableCard } from "./SelectableCard";
 import { SurfaceTag } from "./PriceBar";
-import { DESIGN_SCOPES, PROPERTY_TYPES, ROOM_TYPES } from "@/lib/constants";
+import { DESIGN_SCOPES, MAX_PHOTO_SIZE_MB, PROPERTY_TYPES, ROOM_TYPES } from "@/lib/constants";
 import { roomSurface } from "@/lib/constants";
 import {
   propertyTypeLabel,
@@ -34,6 +27,7 @@ import {
   scopeLabel,
 } from "@/lib/labels";
 import { formatNumber } from "@/lib/format";
+import { cn } from "@/lib/utils";
 import type { SimulatorState } from "./types";
 
 type Props = {
@@ -43,30 +37,57 @@ type Props = {
   errors: Record<string, string>;
 };
 
-const propertyIcons: Record<string, typeof Building2> = {
-  appartement: Building2,
-  villa: Home,
-  studio: DoorOpen,
-  maison: House,
-  local_commercial: Store,
-  bureau: Briefcase,
-  autre: MoreHorizontal,
-};
-
-const scopeIcons: Record<string, typeof LayoutGrid> = {
-  une_piece: DoorOpen,
-  plusieurs_pieces: LayoutGrid,
-  toute_propriete: Home,
-};
+/** Compact text-only selectable chip. */
+const Chip = ({
+  label,
+  selected,
+  onClick,
+}: {
+  label: string;
+  selected: boolean;
+  onClick: () => void;
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    aria-pressed={selected}
+    className={cn(
+      "rounded-full border px-4 py-2 text-sm font-medium transition-all",
+      selected
+        ? "border-primary bg-primary text-primary-foreground shadow-soft"
+        : "border-border/80 bg-card text-foreground hover:border-primary/50 hover:bg-secondary/60",
+    )}
+  >
+    {label}
+  </button>
+);
 
 export const StepEspace = ({ state, onChange, totalSurface, errors }: Props) => {
   const { t } = useTranslation();
   const isWhole = state.scope === "toute_propriete";
+  const roomPhotoInputs = useRef<(HTMLInputElement | null)[]>([]);
 
-  const updateRoom = (index: number, patch: Partial<SimulatorState["rooms"][number]>) => {
+  const updateRoom = (
+    index: number,
+    patch: Partial<SimulatorState["rooms"][number]>,
+  ) => {
     onChange({
       rooms: state.rooms.map((room, i) => (i === index ? { ...room, ...patch } : room)),
     });
+  };
+
+  const attachRoomPhoto = (index: number, file: File | undefined) => {
+    if (!file) return;
+    if (file.size > MAX_PHOTO_SIZE_MB * 1024 * 1024 || !file.type.startsWith("image/")) return;
+    const room = state.rooms[index];
+    if (room.photo) URL.revokeObjectURL(room.photo.previewUrl);
+    updateRoom(index, { photo: { file, previewUrl: URL.createObjectURL(file) } });
+  };
+
+  const removeRoomPhoto = (index: number) => {
+    const room = state.rooms[index];
+    if (room.photo) URL.revokeObjectURL(room.photo.previewUrl);
+    updateRoom(index, { photo: undefined });
   };
 
   return (
@@ -74,15 +95,13 @@ export const StepEspace = ({ state, onChange, totalSurface, errors }: Props) => 
       <div className="space-y-6">
         <div>
           <p className="mb-2.5 text-sm font-semibold text-foreground">{t("espace.property")}</p>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+          <div className="flex flex-wrap gap-2">
             {PROPERTY_TYPES.map((type) => (
-              <SelectableCard
+              <Chip
                 key={type}
-                icon={propertyIcons[type]}
-                title={propertyTypeLabel(type, t)}
+                label={propertyTypeLabel(type, t)}
                 selected={state.propertyType === type}
-                onSelect={() => onChange({ propertyType: type })}
-                className="!p-3.5"
+                onClick={() => onChange({ propertyType: type })}
               />
             ))}
           </div>
@@ -90,15 +109,13 @@ export const StepEspace = ({ state, onChange, totalSurface, errors }: Props) => 
 
         <div>
           <p className="mb-2.5 text-sm font-semibold text-foreground">{t("espace.scope")}</p>
-          <div className="grid gap-2 sm:grid-cols-3">
+          <div className="flex flex-wrap gap-2">
             {DESIGN_SCOPES.map((scope) => (
-              <SelectableCard
+              <Chip
                 key={scope}
-                icon={scopeIcons[scope]}
-                title={scopeLabel(scope, t)}
+                label={scopeLabel(scope, t)}
                 selected={state.scope === scope}
-                onSelect={() => onChange({ scope })}
-                className="!p-3.5"
+                onClick={() => onChange({ scope })}
               />
             ))}
           </div>
@@ -229,6 +246,54 @@ export const StepEspace = ({ state, onChange, totalSurface, errors }: Props) => 
                             dir="ltr"
                           />
                         </div>
+                      </div>
+
+                      <div className="mt-3">
+                        <input
+                          ref={(element) => {
+                            roomPhotoInputs.current[index] = element;
+                          }}
+                          type="file"
+                          accept="image/jpeg,image/png,image/webp"
+                          className="hidden"
+                          onChange={(event) => {
+                            attachRoomPhoto(index, event.target.files?.[0]);
+                            event.target.value = "";
+                          }}
+                        />
+                        {room.photo ? (
+                          <div className="flex items-center gap-3 rounded-xl bg-secondary/40 p-2">
+                            <img
+                              src={room.photo.previewUrl}
+                              alt={t("photos.title")}
+                              className="size-14 rounded-lg object-cover"
+                            />
+                            <p className="flex-1 text-xs text-muted-foreground">
+                              {t("photos.attached")}
+                            </p>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              className="text-destructive"
+                              onClick={() => removeRoomPhoto(index)}
+                            >
+                              <Trash2 className="size-4" aria-hidden />
+                              {t("scope.rooms.remove")}
+                            </Button>
+                          </div>
+                        ) : (
+                          <Button
+                            type="button"
+                            variant="soft"
+                            size="sm"
+                            className="rounded-full"
+                            onClick={() => roomPhotoInputs.current[index]?.click()}
+                          >
+                            <ImagePlus className="size-4" aria-hidden />
+                            {t("photos.upload")}
+                          </Button>
+                        )}
                       </div>
                     </div>
                   );

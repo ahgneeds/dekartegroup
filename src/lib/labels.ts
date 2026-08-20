@@ -32,14 +32,6 @@ export const styleLabel = (code: string, t: TFunction): string =>
     mixte: t("styles.mixte.title"),
   })[code as keyof typeof map] ?? code;
 
-export const paymentMethodLabel = (code: string, t: TFunction): string =>
-  map({
-    virement: t("payment.methods.virement"),
-    cash_plus: t("payment.methods.cashPlus"),
-    wafacash: t("payment.methods.wafacash"),
-    western_union: t("payment.methods.westernUnion"),
-  })[code as keyof typeof map] ?? code;
-
 export const scopeLabel = (code: string, t: TFunction): string =>
   map({
     une_piece: t("scope.unePiece"),

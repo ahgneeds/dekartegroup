@@ -11,8 +11,7 @@ import {
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
-import { PAYMENT_INFO, PAYMENT_METHODS } from "@/lib/constants";
-import { paymentMethodLabel } from "@/lib/labels";
+import { PAYMENT_INFO } from "@/lib/constants";
 
 /**
  * Payment instructions shared by the post-submission popup and the
@@ -41,12 +40,12 @@ export const PaymentContent = ({ totalDh }: { totalDh: string }) => {
   return (
     <div>
       {/* Total banner — the amount is the first thing to see */}
-      <div className="flex items-center justify-between gap-3 rounded-2xl bg-accent px-5 py-4 text-accent-foreground shadow-glow ring-1 ring-accent">
+      <div className="flex items-center justify-between gap-3 rounded-2xl bg-gradient-primary px-5 py-4 text-primary-foreground shadow-soft">
         <span className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide">
-          <Banknote className="size-5" aria-hidden />
+          <Banknote className="size-5 text-accent" aria-hidden />
           {t("payment.amount")}
         </span>
-        <span className="font-display text-3xl font-bold" dir="ltr">
+        <span className="font-display text-3xl font-bold text-accent" dir="ltr">
           {totalDh}
         </span>
       </div>
@@ -144,23 +143,6 @@ export const PaymentContent = ({ totalDh }: { totalDh: string }) => {
             </dd>
           </div>
         </dl>
-      </div>
-
-      {/* Other methods */}
-      <div className="mt-4">
-        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          {t("payment.methods.title")}
-        </p>
-        <div className="mt-2.5 flex flex-wrap gap-2.5">
-          {PAYMENT_METHODS.map((method) => (
-            <span
-              key={method}
-              className="rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground"
-            >
-              {paymentMethodLabel(method, t)}
-            </span>
-          ))}
-        </div>
       </div>
 
       {/* WhatsApp proof — the single action */}

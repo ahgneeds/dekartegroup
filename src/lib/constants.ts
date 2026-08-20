@@ -27,13 +27,6 @@ export const DESIGN_SCOPES = [
   "toute_propriete",
 ] as const;
 
-export const PAYMENT_METHODS = [
-  "virement",
-  "cash_plus",
-  "wafacash",
-  "western_union",
-] as const;
-
 export const REQUEST_STATUSES = [
   "demande_recue",
   "paiement_en_attente",

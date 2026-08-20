@@ -29,11 +29,12 @@ export const LandingHero = () => {
         style={{ backgroundImage: ZELLIGE_PATTERN, backgroundSize: "96px 96px" }}
         aria-hidden
       />
-      <div className="container relative grid items-center gap-10 py-14 md:grid-cols-2 md:py-20">
+      <div className="container relative grid items-center gap-12 py-14 md:grid-cols-2 md:py-20">
         <div className="animate-fade-up">
-          <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-card px-4 py-1.5 text-xs font-semibold uppercase tracking-wide text-primary">
-            {t("hero.badge")}
-          </span>
+          <div className="inline-flex items-center gap-2.5 rounded-full bg-accent px-5 py-2.5 text-lg font-bold text-accent-foreground shadow-glow ring-2 ring-accent animate-glow">
+            <Sparkles className="size-5" aria-hidden />
+            <span className="font-display">{t("hero.price", { price: formatDh(price) })}</span>
+          </div>
 
           <h1 className="mt-6 font-display text-4xl font-semibold leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-[3.4rem]">
             {t("hero.title")}{" "}
@@ -46,12 +47,7 @@ export const LandingHero = () => {
             {t("hero.subtitle")}
           </p>
 
-          <div className="mt-6 inline-flex items-center gap-2.5 rounded-full bg-accent px-5 py-2.5 text-base font-bold text-accent-foreground shadow-glow ring-2 ring-accent animate-glow">
-            <Sparkles className="size-5" aria-hidden />
-            {t("hero.price", { price: formatDh(price) })}
-          </div>
-
-          <ul className="mt-5 grid max-w-lg gap-2 sm:grid-cols-2">
+          <ul className="mt-6 grid max-w-lg gap-2 sm:grid-cols-2">
             {features.map((feature) => {
               const Icon = feature.icon;
               return (
@@ -80,18 +76,32 @@ export const LandingHero = () => {
               </Link>
             </Button>
           </div>
-
-          <p className="mt-6 text-sm text-muted-foreground">{t("hero.points")}</p>
         </div>
 
         <div className="relative animate-fade-up [animation-delay:120ms]">
-          <div className="relative mx-auto max-w-md">
+          <div className="relative mx-auto max-w-md py-4">
             <div className="overflow-hidden rounded-b-[2.5rem] rounded-t-[11rem] border-[6px] border-card shadow-elegant">
               <BrandImage
                 src={IMAGES.hero}
                 alt={t("hero.imageAlt")}
                 className="aspect-[4/5] w-full md:aspect-[4/4.6]"
                 fallbackClassName="aspect-[4/5] w-full md:aspect-[4/4.6]"
+              />
+            </div>
+            <div className="absolute -left-4 top-8 w-24 -rotate-6 overflow-hidden rounded-2xl border-4 border-card shadow-soft sm:-left-10 sm:w-36">
+              <BrandImage
+                src={IMAGES.styleMarocain}
+                alt=""
+                className="aspect-[4/5] w-full"
+                fallbackClassName="aspect-[4/5] w-full"
+              />
+            </div>
+            <div className="absolute -right-3 bottom-20 w-20 rotate-6 overflow-hidden rounded-2xl border-4 border-card shadow-soft sm:-right-8 sm:w-32">
+              <BrandImage
+                src={IMAGES.styleModerne}
+                alt=""
+                className="aspect-[4/5] w-full"
+                fallbackClassName="aspect-[4/5] w-full"
               />
             </div>
           </div>

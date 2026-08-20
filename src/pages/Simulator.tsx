@@ -146,28 +146,35 @@ const Simulator = () => {
   const persistRequest = async (payload: SubmittedRequest, state: SimulatorState) => {
     setSubmitting(true);
     try {
-      // Photos are optional: upload them in parallel, but never block the
-      // request if an upload fails — the request must always be saved.
-      const photoPaths: string[] = [];
-      if (state.photos.length > 0) {
-        await Promise.all(
-          state.photos.map(async (photo) => {
-            try {
-              const extension = photo.file.name.split(".").pop()?.toLowerCase() || "jpg";
-              const path = `photos/${crypto.randomUUID()}.${extension}`;
-              const { error } = await supabase.storage
-                .from(PHOTO_BUCKET)
-                .upload(path, photo.file, {
-                  contentType: photo.file.type || "image/jpeg",
-                  upsert: false,
-                });
-              if (!error) photoPaths.push(path);
-            } catch {
-              // ignore single photo failures
-            }
-          }),
-        );
-      }
+      const uploadPhoto = async (file: File): Promise<string | null> => {
+        try {
+          const extension = file.name.split(".").pop()?.toLowerCase() || "jpg";
+          const path = `photos/${crypto.randomUUID()}.${extension}`;
+          const { error } = await supabase.storage
+            .from(PHOTO_BUCKET)
+            .upload(path, file, {
+              contentType: file.type || "image/jpeg",
+              upsert: false,
+            });
+          return error ? null : path;
+        } catch {
+          return null;
+        }
+      };
+
+      // Photos are optional: upload everything (room photos + extra photos)
+      // in parallel, but never block the request if an upload fails — the
+      // request itself must always be saved.
+      const results = await Promise.all([
+        ...state.photos.map((photo) => uploadPhoto(photo.file)),
+        ...state.rooms.map((room) =>
+          room.photo ? uploadPhoto(room.photo.file) : Promise.resolve(null),
+        ),
+      ]);
+      const photoPaths = results
+        .slice(0, state.photos.length)
+        .filter((path): path is string => Boolean(path));
+      const roomPhotoPaths = results.slice(state.photos.length);
 
       const { error } = await supabase
         .from("requests")
@@ -180,12 +187,13 @@ const Simulator = () => {
           rooms:
             payload.scope === "toute_propriete"
               ? []
-              : payload.rooms.map((room) => ({
+              : payload.rooms.map((room, index) => ({
                   type: room.type,
                   longueur: room.length.trim() || null,
                   largeur: room.width.trim() || null,
                   hauteur: room.height.trim() || null,
                   surface: roomSurface(room),
+                  photo_url: roomPhotoPaths[index] ?? null,
                 })),
           total_surface_m2: payload.totalSurface,
           style: payload.style,
