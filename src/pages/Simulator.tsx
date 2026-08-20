@@ -282,21 +282,26 @@ const Simulator = () => {
             </p>
           )}
 
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
             <Button
               type="button"
               variant="ghost"
               onClick={goBack}
               disabled={step === 0}
-              className="rounded-full"
+              className="self-start rounded-full sm:self-auto"
             >
               <ArrowLeft className="size-4" aria-hidden />
               {t("common.back")}
             </Button>
             {!isSummary && (
-              <Button type="button" onClick={goNext} className="rounded-full px-7 shadow-soft">
+              <Button
+                type="button"
+                size="lg"
+                onClick={goNext}
+                className="w-full rounded-full bg-primary px-8 text-base font-semibold text-primary-foreground shadow-elegant hover:bg-primary/90 sm:w-auto"
+              >
                 {t("common.next")}
-                <ArrowRight className="size-4" aria-hidden />
+                <ArrowRight className="size-5 animate-bounce-x" aria-hidden />
               </Button>
             )}
           </div>

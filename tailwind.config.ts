@@ -42,6 +42,10 @@ export default {
 					DEFAULT: "hsl(var(--destructive))",
 					foreground: "hsl(var(--destructive-foreground))",
 				},
+				whatsapp: {
+					DEFAULT: "hsl(var(--whatsapp))",
+					foreground: "hsl(var(--whatsapp-foreground))",
+				},
 				muted: {
 					DEFAULT: "hsl(var(--muted))",
 					foreground: "hsl(var(--muted-foreground))",
@@ -100,12 +104,17 @@ export default {
 					"0%, 100%": { boxShadow: "0 0 0 0 hsl(43 72% 50% / 0.5)" },
 					"50%": { boxShadow: "0 0 0 12px hsl(43 72% 50% / 0)" },
 				},
+				"bounce-x": {
+					"0%, 100%": { transform: "translateX(0)" },
+					"50%": { transform: "translateX(4px)" },
+				},
 			},
 			animation: {
 				"accordion-down": "accordion-down 0.2s ease-out",
 				"accordion-up": "accordion-up 0.2s ease-out",
 				"fade-up": "fade-up 0.6s ease-out both",
 				glow: "glow 2.2s ease-in-out infinite",
+				"bounce-x": "bounce-x 1.1s ease-in-out infinite",
 			},
 		},
 	},

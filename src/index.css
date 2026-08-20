@@ -29,6 +29,9 @@
     --destructive: 0 72% 51%;
     --destructive-foreground: 40 40% 98%;
 
+    --whatsapp: 142 70% 49%;
+    --whatsapp-foreground: 0 0% 100%;
+
     --border: 40 18% 86%;
     --input: 40 18% 86%;
     --ring: 214 58% 22%;
@@ -150,4 +153,19 @@ body,
 
 .nice-scroll::-webkit-scrollbar-track {
   background: transparent;
+}
+
+/* Gentle horizontal nudge used on the "Continue" arrow. */
+@keyframes bounce-x {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+}
+
+.animate-bounce-x {
+  animation: bounce-x 1.1s ease-in-out infinite;
 }

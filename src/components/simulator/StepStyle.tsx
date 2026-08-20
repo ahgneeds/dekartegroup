@@ -28,7 +28,7 @@ export const StepStyle = ({ state, onChange, errors }: Props) => {
 
   return (
     <StepCard icon={Palette} title={t("style.title")} subtitle={t("style.subtitle")}>
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-3 gap-2 sm:gap-4">
         {STYLES.map((style) => {
           const selected = state.style === style;
           return (
@@ -52,17 +52,17 @@ export const StepStyle = ({ state, onChange, errors }: Props) => {
               />
               <span
                 className={cn(
-                  "absolute end-3 top-3 flex size-7 items-center justify-center rounded-full border-2 transition-all",
+                  "absolute end-2 top-2 flex size-6 items-center justify-center rounded-full border-2 transition-all sm:end-3 sm:top-3 sm:size-7",
                   selected
                     ? "border-primary bg-primary text-primary-foreground"
                     : "border-white bg-black/30 text-transparent",
                 )}
               >
-                <Check className="size-4" aria-hidden />
+                <Check className="size-3.5 sm:size-4" aria-hidden />
               </span>
               <span
                 className={cn(
-                  "absolute inset-x-0 bottom-0 px-4 py-3 text-sm font-semibold text-white transition-colors",
+                  "absolute inset-x-0 bottom-0 px-2 py-2 text-xs font-semibold text-white transition-colors sm:px-4 sm:py-3 sm:text-sm",
                   selected ? "bg-primary/95" : "bg-gradient-to-t from-black/80 to-black/10",
                 )}
               >

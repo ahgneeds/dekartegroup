@@ -3428,16 +3428,19 @@ export type Database = {
           id: number
           price_per_m2: number
           updated_at: string
+          whatsapp_phone: string | null
         }
         Insert: {
           id: number
           price_per_m2?: number
           updated_at?: string
+          whatsapp_phone?: string | null
         }
         Update: {
           id?: number
           price_per_m2?: number
           updated_at?: string
+          whatsapp_phone?: string | null
         }
         Relationships: []
       }

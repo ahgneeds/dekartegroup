@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { CheckCircle2, ReceiptText } from "lucide-react";
@@ -27,6 +27,11 @@ const loadLastRequest = (): SubmittedRequest | null => {
 const Payment = () => {
   const { t } = useTranslation();
   const [request] = useState<SubmittedRequest | null>(loadLastRequest);
+
+  // Always show the page from the top (not scrolled down after navigation).
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (!request) {
     return <Navigate to="/simulateur" replace />;

@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
-import { DEFAULT_PRICE_PER_M2, adminLabel } from "@/lib/constants";
+import { DEFAULT_PRICE_PER_M2, PAYMENT_INFO, adminLabel } from "@/lib/constants";
 import { formatDh, formatNumber } from "@/lib/format";
 import { PaymentBadge, StatusBadge, type RequestRow } from "./admin-ui";
 import { cn } from "@/lib/utils";
@@ -24,6 +24,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<Filter>("all");
   const [price, setPrice] = useState<string>(String(DEFAULT_PRICE_PER_M2));
+  const [whatsapp, setWhatsapp] = useState<string>(PAYMENT_INFO.whatsappIntl);
   const [savingPrice, setSavingPrice] = useState(false);
 
   const loadRequests = async () => {
@@ -43,11 +44,14 @@ const Dashboard = () => {
   const loadPrice = async () => {
     const { data } = await supabase
       .from("settings")
-      .select("price_per_m2")
+      .select("price_per_m2, whatsapp_phone")
       .eq("id", 1)
       .maybeSingle();
     if (data?.price_per_m2 != null) {
       setPrice(String(Number(data.price_per_m2)));
+    }
+    if (typeof data?.whatsapp_phone === "string" && data.whatsapp_phone.trim() !== "") {
+      setWhatsapp(data.whatsapp_phone.trim());
     }
   };
 
@@ -62,16 +66,21 @@ const Dashboard = () => {
       toast.error("Veuillez saisir un prix au m² valide (supérieur à 0).");
       return;
     }
+    const normalizedWhatsapp = whatsapp.trim() || PAYMENT_INFO.whatsappIntl;
     setSavingPrice(true);
     const { error } = await supabase
       .from("settings")
-      .update({ price_per_m2: parsed, updated_at: new Date().toISOString() })
+      .update({
+        price_per_m2: parsed,
+        whatsapp_phone: normalizedWhatsapp,
+        updated_at: new Date().toISOString(),
+      })
       .eq("id", 1);
     setSavingPrice(false);
     if (error) {
-      toast.error("Impossible d'enregistrer le prix.");
+      toast.error("Impossible d'enregistrer les paramètres.");
     } else {
-      toast.success(`Prix mis à jour : ${formatDh(parsed)} / m². Les nouvelles demandes utiliseront ce prix.`);
+      toast.success(`Prix mis à jour : ${formatDh(parsed)} / m². WhatsApp : ${normalizedWhatsapp}.`);
     }
   };
 
@@ -142,10 +151,10 @@ const Dashboard = () => {
       <section id="settings" className="rounded-2xl border border-border/70 bg-card p-5 shadow-soft">
         <div className="flex items-center gap-2.5">
           <Settings className="size-4 text-primary" aria-hidden />
-          <h2 className="font-display text-lg font-semibold">Prix global au m²</h2>
+          <h2 className="font-display text-lg font-semibold">Paramètres globaux</h2>
         </div>
         <p className="mt-1 text-sm text-muted-foreground">
-          Utilisé par la calculatrice publique pour les nouvelles demandes. Les demandes déjà soumises gardent le prix qui a été appliqué à leur envoi.
+          Prix utilisé par la calculatrice publique et numéro WhatsApp affiché sur le site.
         </p>
         <div className="mt-4 flex flex-wrap items-end gap-3">
           <div className="relative w-40">
@@ -160,10 +169,22 @@ const Dashboard = () => {
               DH/m²
             </span>
           </div>
+          <div className="w-60">
+            <Input
+              value={whatsapp}
+              onChange={(event) => setWhatsapp(event.target.value)}
+              className="h-10"
+              dir="ltr"
+              placeholder="+212661221643"
+            />
+          </div>
           <Button onClick={savePrice} disabled={savingPrice} className="rounded-full">
             {savingPrice ? "Enregistrement…" : "Enregistrer"}
           </Button>
         </div>
+        <p className="mt-2 text-xs text-muted-foreground">
+          Numéro WhatsApp au format international (ex. +212661221643). Il s'affiche sur le bouton WhatsApp flottant du site.
+        </p>
       </section>
 
       <section>
