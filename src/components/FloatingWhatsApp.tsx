@@ -16,12 +16,9 @@ export const FloatingWhatsApp = () => {
       target="_blank"
       rel="noreferrer"
       aria-label="WhatsApp"
-      className="fixed bottom-5 end-5 z-50 flex items-center gap-2.5 rounded-full bg-[#25D366] py-3 ps-4 pe-5 text-white shadow-elegant transition-transform hover:scale-105"
+      className="fixed bottom-5 end-5 z-50 flex size-12 items-center justify-center rounded-full bg-[#25D366] text-white shadow-elegant transition-transform hover:scale-105"
     >
-      <MessageCircle className="size-5" aria-hidden />
-      <span className="text-sm font-semibold" dir="ltr">
-        {whatsappIntl}
-      </span>
+      <MessageCircle className="size-6" aria-hidden />
     </a>
   );
 };
