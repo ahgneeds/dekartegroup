@@ -8,6 +8,21 @@ export type PendingPhoto = {
 /** A room with an optional attached photo. */
 export type SimulatorRoom = RoomInput & { photo?: PendingPhoto };
 
+/** Data needed to display the post-submit payment page. */
+export type SubmittedRequest = {
+  id: string;
+  clientName: string;
+  whatsapp: string;
+  propertyType: string;
+  scope: string;
+  rooms: RoomInput[];
+  totalSurface: number;
+  style: string;
+  budget: string | null;
+  pricePerM2: number;
+  totalPrice: number;
+};
+
 export type SimulatorState = {
   name: string;
   whatsapp: string;

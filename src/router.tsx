@@ -1,7 +1,7 @@
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Simulator from "./pages/Simulator";
-import Confirmation from "./pages/Confirmation";
+import Payment from "./pages/Payment";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -19,9 +19,9 @@ export const routers = [
     element: <Simulator />,
   },
   {
-    path: "/confirmation",
-    name: "confirmation",
-    element: <Confirmation />,
+    path: "/paiement",
+    name: "payment",
+    element: <Payment />,
   },
   {
     path: "/admin",

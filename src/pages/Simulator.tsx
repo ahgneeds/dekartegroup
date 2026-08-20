@@ -7,13 +7,15 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { Logo } from "@/components/brand/logo";
-import { PriceBar } from "@/components/simulator/PriceBar";
 import { StepContact } from "@/components/simulator/StepContact";
 import { StepEspace } from "@/components/simulator/StepEspace";
 import { StepStyle } from "@/components/simulator/StepStyle";
 import { StepSummary } from "@/components/simulator/StepSummary";
-import { PaymentDialog, type SubmittedRequest } from "@/components/simulator/PaymentDialog";
-import { initialSimulatorState, type SimulatorState } from "@/components/simulator/types";
+import {
+  initialSimulatorState,
+  type SimulatorState,
+  type SubmittedRequest,
+} from "@/components/simulator/types";
 import { usePricePerM2 } from "@/hooks/use-price-per-m2";
 import { supabase } from "@/integrations/supabase/client";
 import { PHOTO_BUCKET, roomSurface } from "@/lib/constants";
@@ -27,8 +29,6 @@ const Simulator = () => {
   const [state, setState] = useState<SimulatorState>(initialSimulatorState);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState<SubmittedRequest | null>(null);
-  const [paymentOpen, setPaymentOpen] = useState(false);
   const { price } = usePricePerM2();
 
   const stepLabels = [
@@ -134,11 +134,10 @@ const Simulator = () => {
       totalPrice: Number(totalPrice.toFixed(2)),
     };
 
-    // The payment popup opens INSTANTLY — the request is saved in the background
-    // so the user never waits for a spinner before seeing how to pay.
-    setSubmitted(payload);
-    setPaymentOpen(true);
+    // Navigate to the payment page instantly — the request is saved in the
+    // background so the user never waits before seeing how to pay.
     sessionStorage.setItem("dekarte_last_request", JSON.stringify(payload));
+    navigate("/paiement");
 
     void persistRequest(payload, state);
   };
@@ -209,7 +208,7 @@ const Simulator = () => {
   const isSummary = step === stepCount - 1;
 
   return (
-    <div className="flex min-h-full flex-col bg-gradient-soft pb-28">
+    <div className="flex min-h-full flex-col bg-gradient-soft">
       <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur-md">
         <div className="container flex h-16 items-center justify-between gap-4">
           <Link to="/" aria-label="Dekarte — accueil">
@@ -303,10 +302,6 @@ const Simulator = () => {
           </div>
         </div>
       </main>
-
-      {step >= 1 && <PriceBar surface={totalSurface} pricePerM2={price} />}
-
-      <PaymentDialog open={paymentOpen} request={submitted} onClose={() => navigate("/")} />
     </div>
   );
 };
