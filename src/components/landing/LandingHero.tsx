@@ -1,16 +1,19 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { BrandImage } from "@/components/brand/brand-image";
 import { IMAGES } from "@/lib/images";
+import { usePricePerM2 } from "@/hooks/use-price-per-m2";
+import { formatDh } from "@/lib/format";
 
 const ZELLIGE_PATTERN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cpath d='M48 0 L57 39 L96 48 L57 57 L48 96 L39 57 L0 48 L39 39 Z' fill='none' stroke='%2318325A' stroke-opacity='0.07' stroke-width='1.2'/%3E%3C/svg%3E\")";
 
 export const LandingHero = () => {
   const { t } = useTranslation();
+  const { price } = usePricePerM2();
 
   return (
     <section className="relative overflow-hidden bg-gradient-soft">
@@ -31,7 +34,12 @@ export const LandingHero = () => {
             {t("hero.subtitle")}
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="mt-6 inline-flex items-center gap-2.5 rounded-full bg-accent/15 px-4 py-2 text-sm font-semibold text-accent-foreground ring-1 ring-accent/40">
+            <Sparkles className="size-4 text-accent" aria-hidden />
+            {t("hero.price", { price: formatDh(price) })}
+          </div>
+
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
             <Button
               asChild
               size="lg"

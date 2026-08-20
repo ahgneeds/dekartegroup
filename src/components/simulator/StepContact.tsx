@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { UserRound, Phone, AtSign } from "lucide-react";
+import { Phone, UserRound } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,7 +29,7 @@ export const StepContact = ({ state, onChange, errors }: Props) => {
             value={state.name}
             onChange={(event) => onChange({ name: event.target.value })}
             placeholder={t("contact.name.placeholder")}
-            className="h-11"
+            className="h-12"
             autoComplete="name"
           />
           {errors.name && <p className="text-sm text-destructive">{errors.name}</p>}
@@ -44,7 +44,7 @@ export const StepContact = ({ state, onChange, errors }: Props) => {
               value={state.whatsapp}
               onChange={(event) => onChange({ whatsapp: event.target.value })}
               placeholder={t("contact.whatsapp.placeholder")}
-              className="h-11 ps-10"
+              className="h-12 ps-10"
               inputMode="tel"
               autoComplete="tel"
               dir="ltr"
@@ -52,27 +52,6 @@ export const StepContact = ({ state, onChange, errors }: Props) => {
           </div>
           <p className="text-xs text-muted-foreground">{t("contact.whatsapp.hint")}</p>
           {errors.whatsapp && <p className="text-sm text-destructive">{errors.whatsapp}</p>}
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="email">
-            {t("contact.email.label")}{" "}
-            <span className="font-normal text-muted-foreground">{t("common.optional")}</span>
-          </Label>
-          <div className="relative">
-            <AtSign className="pointer-events-none absolute start-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
-            <Input
-              id="email"
-              type="email"
-              value={state.email}
-              onChange={(event) => onChange({ email: event.target.value })}
-              placeholder="exemple@email.com"
-              className="h-11 ps-10"
-              autoComplete="email"
-              dir="ltr"
-            />
-          </div>
-          {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
         </div>
       </div>
     </StepCard>

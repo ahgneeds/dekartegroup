@@ -11,6 +11,7 @@
   "hero.title": "Votre intérieur de rêve, dessiné pour vous.",
   "hero.subtitle": "Décrivez votre espace en 2 minutes. Recevez une visualisation réaliste, adaptée à votre style et à votre budget.",
   "hero.points": "Sans engagement · Prix clair dès le départ · Suivi WhatsApp",
+  "hero.price": "À partir de {{price}} / m²",
   "hero.imageAlt": "Intérieur décoré par Dekarte",
 
   "styles.sectionTitle": "Quel style vous ressemble ?",
@@ -54,7 +55,7 @@
   "footer.whatsapp": "WhatsApp",
   "footer.rights": "© Dekarte — Univers Immobilier & Déco. Tous droits réservés.",
 
-  "sim.title": "Créons votre projet",
+  "sim.title": "Créons votre décoration",
   "sim.subtitle": "Quelques questions rapides, et c'est parti.",
   "sim.step1": "Contact",
   "sim.step2": "Espace",
@@ -77,7 +78,6 @@
   "contact.whatsapp.label": "Numéro WhatsApp",
   "contact.whatsapp.placeholder": "06 12 34 56 78",
   "contact.whatsapp.hint": "Numéro marocain (06 ou 07…)",
-  "contact.email.label": "Email",
   "contact.errors.invalid": "Vérifiez ces informations.",
 
   "propertyTypes.appartement": "Appartement",
@@ -119,9 +119,9 @@
   "style.title": "Quelle ambiance ?",
   "style.subtitle": "Choisissez votre univers.",
 
-  "budget.label": "Budget prévu pour le projet",
+  "budget.label": "Budget souhaité pour votre décoration",
   "budget.note": "Pas le prix de la prestation Dekarte — juste pour adapter le design à ce que vous pouvez réaliser.",
-  "budget.minError": "Minimum 2 000 DH.",
+  "budget.minError": "Budget trop faible.",
 
   "photos.title": "Vos photos",
   "photos.subtitle": "Optionnel, mais ça change tout.",

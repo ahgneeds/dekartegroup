@@ -20,7 +20,6 @@ type SubmittedRequest = {
   id: string;
   clientName: string;
   whatsapp: string;
-  email: string | null;
   propertyType: string;
   scope: string;
   rooms: RoomInput[];

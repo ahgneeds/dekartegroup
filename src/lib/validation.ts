@@ -21,14 +21,9 @@ export const whatsappSchema = z
   .min(1, "whatsapp")
   .refine((value) => normalizeWhatsApp(value) !== null, "whatsapp");
 
-const optionalEmailSchema = z
-  .union([z.email(), z.literal("")])
-  .optional();
-
 export const contactSchema = z.object({
   name: z.string().trim().min(2),
   whatsapp: whatsappSchema,
-  email: optionalEmailSchema,
 });
 
 export const parsePositiveNumber = (value: string): number | null => {

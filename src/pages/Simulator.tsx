@@ -151,7 +151,6 @@ const Simulator = () => {
           id: requestId,
           client_name: state.name.trim(),
           whatsapp: normalizedWhatsapp,
-          email: state.email.trim() || null,
           property_type: state.propertyType,
           design_scope: state.scope,
           rooms:
@@ -178,7 +177,6 @@ const Simulator = () => {
         id: requestId,
         clientName: state.name.trim(),
         whatsapp: normalizedWhatsapp,
-        email: state.email.trim() || null,
         propertyType: state.propertyType,
         scope: state.scope,
         rooms: state.rooms,

@@ -11,6 +11,7 @@
   "hero.title": "أحلام منزلك، نرسمها لك.",
   "hero.subtitle": "صف مساحتك في دقيقتين. استلم تصوّراً واقعياً يتناسب مع أسلوبك وميزانيتك.",
   "hero.points": "بدون التزام · سعر واضح من البداية · متابعة عبر واتساب",
+  "hero.price": "ابتداءً من {{price}} / م²",
   "hero.imageAlt": "داخلية مصممة من طرف Dekarte",
 
   "styles.sectionTitle": "أي أسلوب يعبّر عنك؟",
@@ -54,7 +55,7 @@
   "footer.whatsapp": "واتساب",
   "footer.rights": "© Dekarte — عالم العقار والديكور. جميع الحقوق محفوظة.",
 
-  "sim.title": "لننشئ مشروعك",
+  "sim.title": "لنصمم ديكورك",
   "sim.subtitle": "أسئلة سريعة، وننطلق.",
   "sim.step1": "معلوماتك",
   "sim.step2": "المساحة",
@@ -77,7 +78,6 @@
   "contact.whatsapp.label": "رقم واتساب",
   "contact.whatsapp.placeholder": "06 12 34 56 78",
   "contact.whatsapp.hint": "رقم مغربي (06 أو 07…)",
-  "contact.email.label": "البريد الإلكتروني",
   "contact.errors.invalid": "تحقق من هذه المعلومات.",
 
   "propertyTypes.appartement": "شقة",
@@ -119,9 +119,9 @@
   "style.title": "أي أجواء؟",
   "style.subtitle": "اختر عالمك المفضل.",
 
-  "budget.label": "الميزانية المقررة للمشروع",
+  "budget.label": "الميزانية التي ترغب بها لديكورك",
   "budget.note": "ليست سعر خدمة Dekarte — فقط لتكييف التصميم مع ما يمكنك تحقيقه.",
-  "budget.minError": "الحد الأدنى 2000 درهم.",
+  "budget.minError": "الميزانية غير كافية.",
 
   "photos.title": "صورك",
   "photos.subtitle": "اختياري، لكنه يغيّر النتيجة.",

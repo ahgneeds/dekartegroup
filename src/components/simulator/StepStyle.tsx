@@ -6,9 +6,8 @@ import { Label } from "@/components/ui/label";
 import { StepCard } from "./StepCard";
 import { BrandImage } from "@/components/brand/brand-image";
 import { IMAGES } from "@/lib/images";
-import { STYLES, MIN_BUDGET_DH } from "@/lib/constants";
+import { STYLES } from "@/lib/constants";
 import { styleLabel } from "@/lib/labels";
-import { formatNumber } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { SimulatorState } from "./types";
 
@@ -86,7 +85,7 @@ export const StepStyle = ({ state, onChange, errors }: Props) => {
               id="budget"
               value={state.budget}
               onChange={(event) => onChange({ budget: event.target.value })}
-              placeholder={formatNumber(MIN_BUDGET_DH)}
+              placeholder="15 000"
               className="h-11 pe-16"
               inputMode="numeric"
               dir="ltr"

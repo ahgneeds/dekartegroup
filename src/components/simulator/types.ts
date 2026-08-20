@@ -8,7 +8,6 @@ export type PendingPhoto = {
 export type SimulatorState = {
   name: string;
   whatsapp: string;
-  email: string;
   propertyType: string;
   scope: string;
   rooms: RoomInput[];
@@ -21,7 +20,6 @@ export type SimulatorState = {
 export const initialSimulatorState: SimulatorState = {
   name: "",
   whatsapp: "",
-  email: "",
   propertyType: "",
   scope: "",
   rooms: [{ type: "salon", length: "", width: "", height: "" }],
