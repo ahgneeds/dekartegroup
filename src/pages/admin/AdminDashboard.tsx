@@ -263,6 +263,18 @@ const Dashboard = () => {
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-1.5">
+                    <button
+                      type="button"
+                      aria-label="Supprimer la demande"
+                      onClick={(event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        setDeleteId(request.id);
+                      }}
+                      className="flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
+                    >
+                      <Trash2 className="size-4" aria-hidden />
+                    </button>
                     <span className="font-display text-lg font-bold text-primary" dir="ltr">
                       {formatDh(request.total_price_dh)}
                     </span>
@@ -277,19 +289,6 @@ const Dashboard = () => {
                     </span>
                   </div>
                 </div>
-
-                <button
-                  type="button"
-                  aria-label="Supprimer la demande"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    setDeleteId(request.id);
-                  }}
-                  className="absolute end-3 top-3 flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
-                >
-                  <Trash2 className="size-4" aria-hidden />
-                </button>
 
                 {deleteId === request.id && (
                   <div
