@@ -136,6 +136,7 @@ body,
 .nice-scroll {
   scrollbar-width: thin;
   scrollbar-color: hsl(var(--primary) / 0.25) transparent;
+  -webkit-overflow-scrolling: touch;
 }
 
 .nice-scroll::-webkit-scrollbar {

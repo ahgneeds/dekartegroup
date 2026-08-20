@@ -41,11 +41,11 @@ export const PaymentContent = ({ totalDh }: { totalDh: string }) => {
     <div>
       {/* Total banner — the amount is the first thing to see */}
       <div className="relative flex items-center justify-between gap-3 overflow-hidden rounded-2xl bg-gradient-primary px-5 py-4 text-primary-foreground shadow-soft">
-        <span className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide">
-          <Banknote className="size-5 text-accent" aria-hidden />
+        <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide sm:text-sm">
+          <Banknote className="size-4 text-accent sm:size-5" aria-hidden />
           {t("payment.amount")}
         </span>
-        <span className="font-hero text-3xl font-extrabold tracking-tight text-accent" dir="ltr">
+        <span className="font-hero text-2xl font-extrabold tracking-tight text-accent sm:text-3xl" dir="ltr">
           {totalDh}
         </span>
       </div>
@@ -78,11 +78,14 @@ export const PaymentContent = ({ totalDh }: { totalDh: string }) => {
           </div>
 
           <div className="mt-3 flex items-center justify-between gap-3 rounded-xl bg-secondary/70 px-4 py-3">
-            <div className="min-w-0">
+            <div className="min-w-0 flex-1">
               <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                 RIB
               </p>
-              <p className="truncate font-mono text-base font-bold tracking-wide text-foreground" dir="ltr">
+              <p
+                className="mt-0.5 break-all font-mono text-sm font-bold leading-snug tracking-wide text-foreground sm:text-base"
+                dir="ltr"
+              >
                 {PAYMENT_INFO.rib}
               </p>
             </div>
@@ -152,7 +155,7 @@ export const PaymentContent = ({ totalDh }: { totalDh: string }) => {
           href={`https://wa.me/${PAYMENT_INFO.whatsappIntl}`}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex shrink-0 items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-soft transition-colors hover:bg-primary/90"
+          className="inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-soft transition-colors hover:bg-primary/90 sm:w-auto"
         >
           <MessageCircle className="size-4" aria-hidden />
           {PAYMENT_INFO.whatsapp}
