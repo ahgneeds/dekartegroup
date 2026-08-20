@@ -209,39 +209,39 @@ export const StepEspace = ({ state, onChange, totalSurface, errors }: Props) => 
                         </div>
                       </div>
 
-                      <div className="mt-3 grid grid-cols-3 gap-3">
-                        <div className="space-y-1.5">
-                          <Label className="text-xs text-muted-foreground">
+                      <div className="mt-3 grid grid-cols-3 gap-2 sm:gap-3">
+                        <div className="min-w-0 space-y-1.5">
+                          <Label className="truncate text-[11px] leading-tight text-muted-foreground sm:text-xs">
                             {t("scope.rooms.length")}
                           </Label>
                           <Input
                             value={room.length}
                             onChange={(event) => updateRoom(index, { length: event.target.value })}
-                            className="h-10"
+                            className="h-10 min-w-0"
                             inputMode="decimal"
                             dir="ltr"
                           />
                         </div>
-                        <div className="space-y-1.5">
-                          <Label className="text-xs text-muted-foreground">
+                        <div className="min-w-0 space-y-1.5">
+                          <Label className="truncate text-[11px] leading-tight text-muted-foreground sm:text-xs">
                             {t("scope.rooms.width")}
                           </Label>
                           <Input
                             value={room.width}
                             onChange={(event) => updateRoom(index, { width: event.target.value })}
-                            className="h-10"
+                            className="h-10 min-w-0"
                             inputMode="decimal"
                             dir="ltr"
                           />
                         </div>
-                        <div className="space-y-1.5">
-                          <Label className="text-xs text-muted-foreground">
+                        <div className="min-w-0 space-y-1.5">
+                          <Label className="truncate text-[11px] leading-tight text-muted-foreground sm:text-xs">
                             {t("scope.rooms.height")}
                           </Label>
                           <Input
                             value={room.height}
                             onChange={(event) => updateRoom(index, { height: event.target.value })}
-                            className="h-10"
+                            className="h-10 min-w-0"
                             inputMode="decimal"
                             dir="ltr"
                           />
