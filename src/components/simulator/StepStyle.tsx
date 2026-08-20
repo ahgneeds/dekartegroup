@@ -85,7 +85,7 @@ export const StepStyle = ({ state, onChange, errors }: Props) => {
               id="budget"
               value={state.budget}
               onChange={(event) => onChange({ budget: event.target.value })}
-              placeholder="15000 DH"
+              placeholder="ex : 15000"
               className="h-11 pe-16"
               inputMode="numeric"
               dir="ltr"

@@ -79,9 +79,6 @@
   "propertyTypes.appartement": "Appartement",
   "propertyTypes.villa": "Villa",
   "propertyTypes.studio": "Studio",
-  "propertyTypes.maison": "Maison",
-  "propertyTypes.localCommercial": "Local commercial",
-  "propertyTypes.bureau": "Bureau",
   "propertyTypes.autre": "Autre",
 
   "espace.title": "Votre espace",

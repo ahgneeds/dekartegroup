@@ -79,9 +79,6 @@
   "propertyTypes.appartement": "شقة",
   "propertyTypes.villa": "فيلا",
   "propertyTypes.studio": "ستوديو",
-  "propertyTypes.maison": "منزل",
-  "propertyTypes.localCommercial": "محل تجاري",
-  "propertyTypes.bureau": "مكتب",
   "propertyTypes.autre": "أخرى",
 
   "espace.title": "مساحتك",

@@ -2,9 +2,6 @@ export const PROPERTY_TYPES = [
   "appartement",
   "villa",
   "studio",
-  "maison",
-  "local_commercial",
-  "bureau",
   "autre",
 ] as const;
 

@@ -7,9 +7,6 @@ export const propertyTypeLabel = (code: string, t: TFunction): string =>
     appartement: t("propertyTypes.appartement"),
     villa: t("propertyTypes.villa"),
     studio: t("propertyTypes.studio"),
-    maison: t("propertyTypes.maison"),
-    local_commercial: t("propertyTypes.localCommercial"),
-    bureau: t("propertyTypes.bureau"),
     autre: t("propertyTypes.autre"),
   })[code as keyof typeof map] ?? code;
 
