@@ -55,7 +55,22 @@ async function loadEventDefinitions(): Promise<EventDefinition[]> {
   }
 }
 
+/**
+ * Owner opt-out: when the "dekarte_no_track" cookie is set (toggled from the
+ * back office), the owner's own device/browser is never counted in analytics.
+ */
+function isInternalVisitor(): boolean {
+  if (typeof document === 'undefined') return false;
+  return document.cookie
+    .split(';')
+    .some((entry) => entry.trim().startsWith('dekarte_no_track=1'));
+}
+
 export function bootstrapGeneratedSiteAnalytics(): void {
+  if (isInternalVisitor()) {
+    return;
+  }
+
   bootstrapEnterAnalytics();
 
   void loadEventDefinitions().then((definitions) => {

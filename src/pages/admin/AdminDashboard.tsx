@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
+  BarChart3,
   CircleDollarSign,
   Hourglass,
   Inbox,
@@ -28,6 +29,23 @@ const Dashboard = () => {
   const [whatsapp, setWhatsapp] = useState<string>(PAYMENT_INFO.whatsappIntl);
   const [savingPrice, setSavingPrice] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+
+  const [noTrack, setNoTrack] = useState<boolean>(() => {
+    if (typeof document === "undefined") return false;
+    return document.cookie.split(";").some((c) => c.trim().startsWith("dekarte_no_track=1"));
+  });
+
+  const toggleNoTrack = () => {
+    const next = !noTrack;
+    setNoTrack(next);
+    const maxAge = next ? 60 * 60 * 24 * 365 : 0;
+    document.cookie = `dekarte_no_track=${next ? "1" : ""}; path=/; max-age=${maxAge}; SameSite=Lax`;
+    toast.success(
+      next
+        ? "Vos visites ne seront plus comptées sur cet appareil."
+        : "Vos visites seront comptées sur cet appareil.",
+    );
+  };
 
   const deleteRequest = async (id: string) => {
     const { error } = await supabase.from("requests").delete().eq("id", id);
@@ -109,6 +127,9 @@ const Dashboard = () => {
     unpaid: requests.filter((request) => request.payment_status !== "paye").length,
     paid: requests.filter((request) => request.payment_status === "paye").length,
   };
+
+  const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  const weekCount = requests.filter((request) => new Date(request.created_at) >= weekAgo).length;
 
   const tabs: { key: Filter; label: string; count: number }[] = [
     { key: "all", label: "Toutes", count: counts.total },
@@ -197,6 +218,55 @@ const Dashboard = () => {
         </div>
         <p className="mt-2 text-xs text-muted-foreground">
           Numéro WhatsApp au format international (ex. +212661221643). Il s'affiche sur le bouton WhatsApp flottant du site.
+        </p>
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border/70 bg-background/50 px-4 py-3">
+          <div>
+            <p className="text-sm font-semibold text-foreground">Ne pas compter mes visites</p>
+            <p className="text-xs text-muted-foreground">
+              Exclut cet appareil des statistiques (vos propres visites, par ex. sur votre wifi).
+            </p>
+          </div>
+          <Button
+            type="button"
+            variant={noTrack ? "default" : "outline"}
+            size="sm"
+            onClick={toggleNoTrack}
+            className="rounded-full"
+          >
+            {noTrack ? "Exclu — réactiver" : "Exclure cet appareil"}
+          </Button>
+        </div>
+      </section>
+
+      <section className="rounded-2xl border border-border/70 bg-card p-5 shadow-soft">
+        <div className="flex items-center gap-2.5">
+          <BarChart3 className="size-4 text-primary" aria-hidden />
+          <h2 className="font-display text-lg font-semibold">Statistiques</h2>
+        </div>
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          <div className="rounded-xl bg-secondary/50 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Demandes reçues
+            </p>
+            <p className="mt-1 font-display text-2xl font-bold">{counts.total}</p>
+          </div>
+          <div className="rounded-xl bg-secondary/50 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Cette semaine
+            </p>
+            <p className="mt-1 font-display text-2xl font-bold">{weekCount}</p>
+          </div>
+          <div className="rounded-xl bg-secondary/50 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Visites & sources
+            </p>
+            <p className="mt-1 text-sm font-medium text-foreground">Voir tableau Analytics</p>
+          </div>
+        </div>
+        <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+          Les visites (hors appareils exclus), leurs sources (Facebook, Instagram, TikTok, Google, direct…) et le taux de
+          conversion (visites → demandes soumises) sont consultables dans le tableau de bord Analytics de la plateforme
+          (onglet Analytics du projet).
         </p>
       </section>
 

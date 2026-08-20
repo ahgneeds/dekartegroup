@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { toast } from "sonner";
+import { trackEvent } from "@enter-pro/analytics-sdk";
 
 import { Button } from "@/components/ui/button";
 import { LanguageSwitcher } from "@/components/language-switcher";
@@ -21,6 +22,32 @@ import { supabase } from "@/integrations/supabase/client";
 import { PHOTO_BUCKET, roomSurface } from "@/lib/constants";
 import { budgetSchema, contactSchema, normalizeWhatsApp, parsePositiveNumber } from "@/lib/validation";
 import { cn } from "@/lib/utils";
+
+/** Best-effort traffic source: UTM param, then referrer domain, else "direct". */
+const getTrafficSource = (): string => {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const utm = params.get("utm_source");
+    if (utm) return utm;
+    const referrer = document.referrer;
+    if (referrer) {
+      try {
+        const host = new URL(referrer).hostname.replace(/^www\./, "");
+        if (host.includes("facebook")) return "facebook";
+        if (host.includes("instagram")) return "instagram";
+        if (host.includes("tiktok")) return "tiktok";
+        if (host.includes("whatsapp")) return "whatsapp";
+        if (host.includes("google")) return "google";
+        return host;
+      } catch {
+        return referrer;
+      }
+    }
+    return "direct";
+  } catch {
+    return "direct";
+  }
+};
 
 const Simulator = () => {
   const { t } = useTranslation();
@@ -136,6 +163,15 @@ const Simulator = () => {
 
     // Navigate to the payment page instantly — the request is saved in the
     // background so the user never waits before seeing how to pay.
+    trackEvent("request_submitted", {
+      eventType: "conversion",
+      properties: {
+        source: getTrafficSource(),
+        style: state.style,
+        surface: Number(totalSurface.toFixed(2)),
+        total_price: Number(totalPrice.toFixed(2)),
+      },
+    });
     sessionStorage.setItem("dekarte_last_request", JSON.stringify(payload));
     navigate("/paiement");
 
